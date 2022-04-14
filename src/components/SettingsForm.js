@@ -8,7 +8,7 @@ import Textarea from '@material-tailwind/react/Textarea';
 export default function SettingsForm() {
     return (
         <Card>
-            <CardHeader color="purple" contentPosition="none">
+            <CardHeader color="orange" contentPosition="none">
                 <div className="w-full flex items-center justify-between">
                     <h2 className="text-white text-2xl">My Submitted Application</h2>
                     {/*<Button*/}
