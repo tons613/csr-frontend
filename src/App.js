@@ -3,7 +3,7 @@ import Sidebar from 'components/Sidebar';
 import Dashboard from 'pages/Dashboard';
 import Settings from 'pages/Settings';
 import Tables from 'pages/Tables';
-import Maps from 'pages/Maps';
+import ApplicationForm from 'pages/ApplicationForm';
 import Footer from 'components/Footer';
 import Landing from 'pages/Landing';
 import Profile from 'pages/Profile';
@@ -22,7 +22,7 @@ function App() {
                     <Route exact path="/" component={Dashboard} />
                     <Route exact path="/settings" component={Settings} />
                     <Route exact path="/tables" component={Tables} />
-                    <Route exact path="/maps" component={Maps} />
+                    <Route exact path="/Application" component={ApplicationForm} />
                     <Route exact path="/profile" component={Profile} />
                     <Route exact path="/login" component={Login} />
                     <Route exact path="/register" component={Register} />

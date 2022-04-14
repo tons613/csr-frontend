@@ -14,13 +14,16 @@ export default function Sidebar() {
                 showSidebar={showSidebar}
                 setShowSidebar={setShowSidebar}
             />
-            <div
-                className={`h-screen fixed top-0 md:left-0 ${showSidebar} overflow-y-auto flex-row flex-nowrap overflow-hidden shadow-xl bg-white w-64 z-10 py-4 px-6 transition-all duration-300`}
-            >
+            
+            <div style={{ background: "linear-gradient(to bottom, #003333 0%, #ff9900 100%)" }}
+                className={`h-screen fixed  md:left-0 ${showSidebar} overflow-y-auto flex-row flex-nowrap overflow-hidden shadow-xl w-64 z-10 py-4 px-6 transition-all duration-300`}>
+
+                <div className={`bg-gray-200 fixed top-0 md:left-0 -ml-8 md:-ml-0 rigth-0 w-64  py-2 pl-10 flex-wrap overflow-hidden `}
+                    >
+                    <Image src={Logo} />
+                </div>
                 <div className="flex-col items-stretch min-h-full flex-nowrap px-0 relative">
-                    <div className="mx-auto">
-                        <Image src={Logo} className="content-center" />
-                    </div>
+                    
                     <div className="flex flex-col">
                         <hr className="my-4 min-w-full" />
 
@@ -39,8 +42,8 @@ export default function Sidebar() {
                             <li className="rounded-lg mb-2">
                                 <NavLink
                                     to="/settings"
-                                    className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"
-                                    activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
+                                    className="flex items-center gap-4 text-sm text-white font-light px-4 py-3 rounded-lg"
+                                    activeClassName="bg-gradient-to-tr from-orange-500 to-deep-orange-700 text-white shadow-md"
                                 >
                                     <Icon name="list_alt" size="2xl" />
                                     {/*<Icon name="settings" size="2xl" />*/}
@@ -50,8 +53,8 @@ export default function Sidebar() {
                             <li className="rounded-lg mb-2 text-gray-700">
                                 <NavLink
                                     to="/login"
-                                    className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"
-                                    activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
+                                    className="flex items-center gap-4 text-sm text-white font-light px-4 py-3 rounded-lg"
+                                    activeClassName="bg-gradient-to-tr from-orange-500 to-deep-orange-700 text-white shadow-md"
                                 >
                                     <Icon name="fingerprint" size="2xl" />
                                     Change Password
