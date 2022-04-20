@@ -1,6 +1,7 @@
 import StatusCard from 'components/StatusCard';
 import SettingsForm from 'components/SettingsForm';
 import ProfileCard from 'components/ProfileCard';
+import background from "assets/img/landing.png";
 
 export default function Dashboard() {
     return (
@@ -11,7 +12,8 @@ export default function Dashboard() {
                 </div>
             </div>
 
-            <div className="px-3 md:px-8 h-auto -mt-24">
+         <div style={{ backgroundImage: `url(${background})`, backgroundRepeat: 'no-repeat' }}>
+         <div className="px-3 md:px-8 h-auto -mt-24">
                 <div className="container mx-auto max-w-full">
                     <div className="w-10/12 mx-auto">
                         <div className="xl:col-start-2 xl:col-end-5 px-4 mb-16">
@@ -20,6 +22,7 @@ export default function Dashboard() {
                         
                     </div>
                 </div>
+            </div>
             </div>
         </>
     );
