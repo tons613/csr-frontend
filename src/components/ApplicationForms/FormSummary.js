@@ -9,14 +9,12 @@ import { CardFooter } from "@material-tailwind/react";
 export default function FormSummary(props) {
   return (
     <Card>
-      <CardHeader color="orange" contentPosition="none">
+      <CardHeader color="orange" contentPosition="none" size="sm">
         <div className="w-full flex items-center justify-between">
-          <h2 className="text-white text-2xl">
-            Review Your Submitted Information
-          </h2>
-          <h2>
+          <h6 className="text-lg">Review Your Submitted Information</h6>
+          <h6 className="text-sm">
             Step {props.currentStep} of {props.totalSteps}
-          </h2>
+          </h6>
         </div>
       </CardHeader>
       <CardBody>

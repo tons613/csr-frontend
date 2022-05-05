@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Card from "@material-tailwind/react/Card";
 import CardHeader from "@material-tailwind/react/CardHeader";
 import CardBody from "@material-tailwind/react/CardBody";
@@ -5,17 +6,27 @@ import Button from "@material-tailwind/react/Button";
 import Input from "@material-tailwind/react/Input";
 import Textarea from "@material-tailwind/react/Textarea";
 import { CardFooter } from "@material-tailwind/react";
+import { InputLabel } from "@material-ui/core";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "react-select";
 
+const options = [
+  { value: "chocolate", label: "Abia" },
+  { value: "strawberry", label: "Adamawa" },
+  { value: "vanilla", label: "Akwa Ibom" },
+];
 export default function ContactForm(props) {
-  console.log(props.isActive);
+  useEffect(() => {
+    //alert("contact");
+  }, []);
   return (
     <Card>
-      <CardHeader color="orange" contentPosition="none">
+      <CardHeader color="orange" contentPosition="none" size="sm">
         <div className="w-full flex items-center justify-between">
-          <h2 className="text-white text-2xl">Contact Details</h2>
-          <h2>
+          <h6 className="text-lg">Contact Details</h6>
+          <h6 className="text-sm">
             Step {props.currentStep} of {props.totalSteps}
-          </h2>
+          </h6>
         </div>
       </CardHeader>
       <CardBody>
@@ -40,24 +51,18 @@ export default function ContactForm(props) {
                 outline={true}
               />
             </div>
-            <div className="w-full lg:w-4/12  mb-10 font-dark">
+            <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
               <Input
                 type="text"
                 color="purple"
-                pr-4
                 placeholder="Gender"
                 outline={true}
               />
             </div>
           </div>
-          <div className="flex flex-wrap mt-10">
+          <div className="flex flex-wrap lg:mt-10">
             <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
-              <Input
-                type="text"
-                color="purple"
-                placeholder="State of Origin"
-                outline={true}
-              />
+              <Select options={options} placeholder="State of Origin" />
             </div>
             <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
               <Input
@@ -67,17 +72,16 @@ export default function ContactForm(props) {
                 outline={true}
               />
             </div>
-            <div className="w-full lg:w-4/12  mb-10 font-dark">
+            <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
               <Input
                 type="text"
                 color="purple"
-                pr-4
                 placeholder="Geo Political Zone"
                 outline={true}
               />
             </div>
           </div>
-          <div className="flex flex-wrap mt-10">
+          <div className="flex flex-wrap lg:mt-10">
             <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
               <Input
                 type="text"
@@ -94,11 +98,10 @@ export default function ContactForm(props) {
                 outline={true}
               />
             </div>
-            <div className="w-full lg:w-4/12  mb-10 font-dark">
+            <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
               <Input
                 type="text"
                 color="purple"
-                pr-4
                 placeholder="State of Residence"
                 outline={true}
               />

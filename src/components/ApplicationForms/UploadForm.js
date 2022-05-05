@@ -5,16 +5,17 @@ import Button from "@material-tailwind/react/Button";
 import Input from "@material-tailwind/react/Input";
 import Textarea from "@material-tailwind/react/Textarea";
 import { CardFooter } from "@material-tailwind/react";
+import UploadFiles from "components/FilesUpload.component";
 
 export default function UploadForm(props) {
   return (
     <Card>
-      <CardHeader color="orange" contentPosition="none">
+      <CardHeader color="orange" contentPosition="none" size="sm">
         <div className="w-full flex items-center justify-between">
-          <h2 className="text-white text-2xl">Upload Documents</h2>
-          <h2>
+          <h6 className="text-lg">Upload Documents</h6>
+          <h6 className="text-sm">
             Step {props.currentStep} of {props.totalSteps}
-          </h2>
+          </h6>
         </div>
       </CardHeader>
       <CardBody>
@@ -23,36 +24,16 @@ export default function UploadForm(props) {
             User Information
           </h6>
           <div className="flex flex-wrap mt-10">
-            <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
-              <Input type="text" color="purple" placeholder="Username" />
-            </div>
-            <div className="w-full lg:w-6/12 pl-4 mb-10 font-light">
-              <Input type="email" color="purple" placeholder="Email Address" />
-            </div>
-            <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
-              <Input type="text" color="purple" placeholder="First Name" />
-            </div>
-            <div className="w-full lg:w-6/12 pl-4 mb-10 font-light">
-              <Input type="email" color="purple" placeholder="Last Name" />
-            </div>
+            <UploadFiles title="SSCE Result" />
           </div>
-
-          <h6 className="text-purple-500 text-sm my-6 font-light uppercase">
-            Contact Information
-          </h6>
           <div className="flex flex-wrap mt-10">
-            <div className="w-full lg:w-12/12 mb-10 font-light">
-              <Input type="text" color="purple" placeholder="Address" />
-            </div>
-            <div className="w-full lg:w-4/12 pr-4 mb-10 font-light">
-              <Input type="text" color="purple" placeholder="City" />
-            </div>
-            <div className="w-full lg:w-4/12 px-4 mb-10 font-light">
-              <Input type="text" color="purple" placeholder="Country" />
-            </div>
-            <div className="w-full lg:w-4/12 pl-4 mb-10 font-light">
-              <Input type="text" color="purple" placeholder="Postal Code" />
-            </div>
+            <UploadFiles title="A-Level Result" />
+          </div>
+          <div className="flex flex-wrap mt-10">
+            <UploadFiles title="Admission Letter" />
+          </div>
+          <div className="flex flex-wrap mt-10">
+            <UploadFiles title="LGA Letter of Identification" />
           </div>
         </form>
 
@@ -68,7 +49,7 @@ export default function UploadForm(props) {
           </p> */}
         </div>
       </CardBody>
-      <CardFooter>
+      <CardFooter className="mt-20">
         <div className="absolute bottom-5 left-5 ">
           <Button color="gray" onClick={props.previousStep}>
             Previous

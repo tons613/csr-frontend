@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Card from "@material-tailwind/react/Card";
 import CardHeader from "@material-tailwind/react/CardHeader";
 import CardBody from "@material-tailwind/react/CardBody";
@@ -5,16 +6,26 @@ import Button from "@material-tailwind/react/Button";
 import Input from "@material-tailwind/react/Input";
 import Textarea from "@material-tailwind/react/Textarea";
 import { CardFooter } from "@material-tailwind/react";
+import Select from "react-select";
+
+const options = [
+  { value: "chocolate", label: "Abia" },
+  { value: "strawberry", label: "Adamawa" },
+  { value: "vanilla", label: "Akwa Ibom" },
+];
 
 export default function InstitutionForm(props) {
+  useEffect(() => {
+    //alert("schol");
+  }, []);
   return (
     <Card>
-      <CardHeader color="orange" contentPosition="none">
+      <CardHeader color="orange" contentPosition="none" size="sm">
         <div className="w-full flex items-center justify-between">
-          <h2 className="text-white text-2xl">Institution Information</h2>
-          <h2>
+          <h6 className="text-lg">Institution Information</h6>
+          <h6 className="text-sm">
             Step {props.currentStep} of {props.totalSteps}
-          </h2>
+          </h6>
         </div>
       </CardHeader>
       <CardBody>
@@ -24,26 +35,15 @@ export default function InstitutionForm(props) {
           </h6>
           <div className="flex flex-wrap mt-10">
             <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
-              <Input
-                type="text"
-                color="purple"
-                placeholder="University"
-                outline={true}
-              />
+              <Select options={options} placeholder="University" />
+            </div>
+            <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
+              <Select options={options} placeholder="Faculty" />
             </div>
             <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
               <Input
-                max="2010-12-31"
-                color="purple"
-                placeholder="Faculty"
-                outline={true}
-              />
-            </div>
-            <div className="w-full lg:w-4/12  mb-10 font-dark">
-              <Input
                 type="text"
-                color="purple"
-                pr-4
+                color="blue"
                 placeholder="Department"
                 outline={true}
               />
@@ -51,29 +51,13 @@ export default function InstitutionForm(props) {
           </div>
           <div className="flex flex-wrap mt-10">
             <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
-              <Input
-                type="text"
-                color="purple"
-                placeholder="Entry Year"
-                outline={true}
-              />
+              <Select options={options} placeholder="Entry Year" />
             </div>
             <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
-              <Input
-                max="2010-12-31"
-                color="purple"
-                placeholder="Current year of study"
-                outline={true}
-              />
+              <Select options={options} placeholder="Current year of study" />
             </div>
-            <div className="w-full lg:w-4/12  mb-10 font-dark">
-              <Input
-                type="text"
-                color="purple"
-                pr-4
-                placeholder="Graduation year"
-                outline={true}
-              />
+            <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
+              <Select options={options} placeholder="Graduation year" />
             </div>
           </div>
           <div className="flex flex-wrap mt-10">
@@ -86,21 +70,10 @@ export default function InstitutionForm(props) {
               />
             </div>
             <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
-              <Input
-                max="2010-12-31"
-                color="purple"
-                placeholder="Programme type"
-                outline={true}
-              />
+              <Select options={options} placeholder="Programme type" />
             </div>
-            <div className="w-full lg:w-4/12  mb-10 font-dark">
-              <Input
-                type="text"
-                color="purple"
-                pr-4
-                placeholder="Grade scale"
-                outline={true}
-              />
+            <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
+              <Select options={options} placeholder="Grade scale" />
             </div>
           </div>
           <div className="flex flex-wrap mt-10">
@@ -120,11 +93,10 @@ export default function InstitutionForm(props) {
                 outline={true}
               />
             </div>
-            <div className="w-full lg:w-4/12  mb-10 font-dark">
+            <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
               <Input
                 type="text"
                 color="purple"
-                pr-4
                 placeholder="Post-UTME Score"
                 outline={true}
               />

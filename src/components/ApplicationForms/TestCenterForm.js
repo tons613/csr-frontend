@@ -5,16 +5,22 @@ import Button from "@material-tailwind/react/Button";
 import Input from "@material-tailwind/react/Input";
 import Radio from "@material-tailwind/react/radio";
 import { CardFooter } from "@material-tailwind/react";
+import Select from "react-select";
 
+const options = [
+  { value: "chocolate", label: "Abia" },
+  { value: "strawberry", label: "Adamawa" },
+  { value: "vanilla", label: "Akwa Ibom" },
+];
 export default function TestCenterForm(props) {
   return (
     <Card>
-      <CardHeader color="orange" contentPosition="none">
+      <CardHeader color="orange" contentPosition="none" size="sm">
         <div className="w-full flex items-center justify-between">
-          <h2 className="text-white text-2xl">Choose Test Center</h2>
-          <h2>
+          <h6 className="text-lg">Choose Test Center</h6>
+          <h6 className="text-sm">
             Step {props.currentStep} of {props.totalSteps}
-          </h2>
+          </h6>
         </div>
       </CardHeader>
       <CardBody>
@@ -24,20 +30,10 @@ export default function TestCenterForm(props) {
           </h6>
           <div className="flex flex-wrap mt-10">
             <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
-              <Input
-                type="text"
-                color="purple"
-                placeholder="First choice center"
-                outline={true}
-              />
+              <Select options={options} placeholder="First choice centerr" />
             </div>
             <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
-              <Input
-                max="2010-12-31"
-                color="purple"
-                placeholder="Second choice center"
-                outline={true}
-              />
+              <Select options={options} placeholder="Second choice center" />
             </div>
             <div className="w-full lg:w-4/12  mb-10 font-dark">
               <label className="form-check-label">
