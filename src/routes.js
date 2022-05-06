@@ -11,10 +11,18 @@ import Register from "pages/Register";
 
 var routes = [
   {
-    path: "/dashboard",
+    path: "/",
+    name: "Home",
+    icon: "ni ni-circle-08 text-pink",
+    component: Landing,
+    layout: "/index",
+  },
+  {
+    path: "/",
     name: "Dashboard",
     icon: "ni ni-compass-04",
-    component: Dashboard,
+    component: ApplicationForm,
+    // component: Dashboard,
     layout: "/dashboard",
   },
   {

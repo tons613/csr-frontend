@@ -41,7 +41,7 @@ export default function Sidebar() {
               {/*</li>*/}
               <li className="rounded-lg mb-2">
                 <NavLink
-                  to="/settings"
+                  to="/dashboard/Application"
                   className="flex items-center gap-4 text-sm text-white font-light px-4 py-3 rounded-lg"
                   activeClassName="bg-gradient-to-tr from-orange-500 to-deep-orange-700 text-white shadow-md"
                 >
@@ -52,7 +52,7 @@ export default function Sidebar() {
               </li>
               <li className="rounded-lg mb-2 text-gray-700">
                 <NavLink
-                  to="/login"
+                  to="/auth/login"
                   className="flex items-center gap-4 text-sm text-white font-light px-4 py-3 rounded-lg"
                   activeClassName="bg-gradient-to-tr from-orange-500 to-deep-orange-700 text-white shadow-md"
                 >
