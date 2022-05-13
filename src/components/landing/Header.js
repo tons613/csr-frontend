@@ -1,5 +1,6 @@
-import H2 from '@material-tailwind/react/Heading2';
-import LeadText from '@material-tailwind/react/LeadText';
+import H2 from "@material-tailwind/react/Heading4";
+import LeadText from "@material-tailwind/react/LeadText";
+import { Typography } from "@material-ui/core";
 import background from "assets/img/b2.jpg";
 
 export default function Header() {
@@ -15,11 +16,12 @@ export default function Header() {
         }}
       />
       <div className="container max-w-8xl relative mx-auto">
-        <div className="items-center flex flex-wrap">
+        <div className="items-center flex flex-wrap mt-40">
           <div className="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
-            <H2 color="white">
-              NATIONAL MERIT SCHOLARSHIP SCHEME APPLICATION.
-            </H2>
+            <h4 className="text-5xl text-white font-bold">
+              NATIONAL MERIT SCHOLARSHIP SCHEME APPLICATION
+            </h4>
+            <Typography variant="h5" style={{ color: "white" }}></Typography>
             <div className="text-gray-200">
               <LeadText color="gray-200">
                 This is a simple example of a Landing Page you can build using

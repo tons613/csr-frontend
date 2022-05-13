@@ -6,32 +6,42 @@ import api from "../../utils/config";
 export const signIn = (credentials) => {
   return (dispatch, getState) => {
     dispatch({ type: "AUTH_LOADING", loading: true });
+    axios
+      .post(api.API_URL + "/api/auth/login", credentials)
+      .then((user) => {
+        const token = user.data.access_token;
+        handleToken(token);
+        dispatch(setCurrentUser(user.data.profile));
+      })
+      .catch((error) => {
+        // alert(JSON.stringify(error.response.status));
 
-    dispatch(setCurrentUser(credentials));
-    console.log(credentials);
-    // axios
-    //   .post(api.API_URL + "/api/auth/login", credentials)
-    //   .then((user) => {
-    //     const token = user.data.access_token;
-    //     handleToken(token);
-    //     dispatch(setCurrentUser(user.data.profile));
-    //   })
-    //   .catch((error) => {
-    //     // alert(JSON.stringify(error.response.status));
+        var err;
+        var code;
+        if (error.response) {
+          err = error.response.data;
+          code = error.response.status;
+          var errmsg;
+          // if (err.errors) {
+          //   for (const [key, value] of Object.entries(err.errors)) {
+          //     errmsg.push(value);
+          //   }
+          // } else {
+          //   for (const [key, value] of Object.entries(err)) {
+          //     errmsg.push(value);
+          //   }
+          // }
+          if (code === 401) {
+            errmsg = "Invalid Email or Password";
+          }
+        } else {
+          errmsg =
+            "Login Failed. Please check your network connection, and try again";
+          code = 500;
+        }
 
-    //     var err;
-    //     var code;
-    //     if (error.response) {
-    //       err = error.response.data.error;
-    //       code = error.response.status;
-    //     } else {
-    //       err =
-    //         "Login Failed. Please check your network connection, and try again";
-    //       code = 500;
-    //     }
-
-    //     dispatch({ type: "LOGIN_ERROR", err, code });
-    //   });
+        dispatch({ type: "LOGIN_ERROR", err: errmsg, code });
+      });
   };
 };
 
@@ -70,41 +80,32 @@ export const signOut = () => {
   };
 };
 
-export const signUp = (newUser) => {
+export const createAccount = (newUser) => {
   // alert(JSON.stringify(newUser));
 
   return (dispatch, getState) => {
     dispatch({ type: "AUTH_LOADING", loading: true });
     const promise = new Promise(function (resolve, reject) {
       axios
-        .post(api.API_URL + "/api/auth/register", newUser)
+        .post(api.API_URL + "/api/create-account", newUser)
         .then((user) => {
           dispatch({ type: "SIGNUP_SUCCESS" });
-          // const token = user.data.access_token;
-          // console.log(token);
-          // handleToken(token);
-          // axios
-          //   .get(api.API_URL + "/profile", {
-          //     headers: {
-          //       Authorization: "Bearer " + token,
-          //     },
-          //   })
-          //   .then((result) => dispatch(setCurrentUser(result.data)));
           resolve();
         })
         .catch((error) => {
           // alert(JSON.stringify(error));
           var err;
           if (error.response) {
-            err = error.response.data.error;
+            err = error.response.data;
             // alert(JSON.stringify(err));
+            console.log(err);
           } else {
             err =
               "Registration Failed. Please check your network connection and try again";
           }
 
           dispatch({ type: "SIGNUP_ERROR", err });
-          reject();
+          reject(err);
         });
     });
 

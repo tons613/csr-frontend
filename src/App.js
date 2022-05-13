@@ -14,9 +14,9 @@ function App() {
           path="/dashboard"
           render={(props) => <DashboardLayout {...props} />}
         />
-        <Route exact path="/" render={(props) => <IndexLayout {...props} />} />
+        {/* <Route exact path="/" render={(props) => <IndexLayout {...props} />} /> */}
+        <Redirect from="/" to="/dashboard" />
         <Redirect from="*" to="/" />
-        {/* <Redirect from="/" to="/dashboard" /> */}
       </Switch>
       {/* <Footer /> */}
     </>

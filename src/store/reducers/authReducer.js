@@ -34,7 +34,6 @@ const authReducer = (state = iniState, action) => {
         },
       };
     case "LOGIN_ERROR":
-      // console.log(action.err);
       return {
         ...state,
         authError: action.err,

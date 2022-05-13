@@ -18,6 +18,38 @@ module.exports = {
       xl: "1280px",
       "2xl": "1536px",
     },
+    colors: {
+      transparent: "transparent",
+      current: "currentColor",
+      white: "#ffffff",
+      purple: "#3f3cbb",
+      midnight: "#fff",
+      metal: "#565584",
+      tahiti: "#3ab7bf",
+      silver: "#ecebff",
+      "bubble-gum": "#ff77e9",
+      bermuda: "#78dcca",
+    },
+    // colors: {
+    //   transparent: "transparent",
+    //   current: "currentColor",
+
+    //   black: colors.black,
+    //   white: colors.white,
+    //   gray: colors.coolGray,
+    //   red: colors.red,
+    //   yellow: colors.amber,
+    //   green: colors.emerald,
+    //   lightBlue: colors.lightBlue,
+    //   emerald: colors.emerald,
+    //   indigo: colors.indigo,
+    //   purple: colors.violet,
+    //   pink: colors.pink,
+    //   blueGray: colors.blueGray,
+    //   orange: colors.orange,
+    //   blue1: { ...colors.blue, dark: "#000024" },
+    // },
+    // colors: { ...colors },
     extend: {
       backgroundImage: () => ({
         "login-background":

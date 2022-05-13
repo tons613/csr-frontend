@@ -18,15 +18,14 @@ import isEmpty from "lodash/isEmpty";
 function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const { authError, auth } = props;
   const handleSubmit = (e) => {
     e.preventDefault();
     var data = { email: email, password: password };
     props.login(data);
   };
   const checkAuth = () => {
-    const { isAuthenticated, currentUser, loading } = props.auth;
-    console.log("ddddds", loading);
+    const { isAuthenticated, currentUser, loading } = auth;
     if (isAuthenticated && !isEmpty(currentUser)) {
       props.history.push("/dashboard");
     }
@@ -37,17 +36,25 @@ function Login(props) {
     document.scrollingElement.scrollTop = 0;
     checkAuth();
   });
-
   return (
     <Page>
       <AuthNavbar />
       <Container>
+        {authError && (
+          <div
+            className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-8 mx-5"
+            role="alert"
+          >
+            {authError}
+            {/* {authError && authError.map((err) => <li>{err}</li>)} */}
+          </div>
+        )}
         <Card>
           <form onSubmit={handleSubmit}>
-            <CardHeader color="transparent" className="bg-teal-500" size="sm">
-              <h6 color="white" style={{ marginBottom: 0 }}>
+            <CardHeader color="transparent" className="bg-[#F1A83B]" size="sm">
+              <h5 className="text-lg font-medium text-center text-white">
                 Applicant Login
-              </h6>
+              </h5>
             </CardHeader>
 
             <CardBody>
@@ -57,6 +64,7 @@ function Login(props) {
                   color="lightBlue"
                   placeholder="Email Address"
                   iconName="email"
+                  required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -66,6 +74,7 @@ function Login(props) {
                   type="password"
                   color="lightBlue"
                   placeholder="Password"
+                  required
                   iconName="lock"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -84,7 +93,13 @@ function Login(props) {
                   ripple="dark"
                   type="submit"
                 >
-                  Sign In
+                  {auth.loading ? (
+                    <>
+                      Loading... <i className="fa fa-spinner fa-2x fa-spin"></i>
+                    </>
+                  ) : (
+                    "Sign In"
+                  )}
                 </Button>
               </div>
             </CardFooter>
@@ -100,5 +115,6 @@ const mapDispatchToProps = (dispatch) => {
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  authError: state.auth.authError,
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
