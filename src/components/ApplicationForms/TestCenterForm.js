@@ -6,6 +6,8 @@ import Input from "@material-tailwind/react/Input";
 import Radio from "@material-tailwind/react/radio";
 import { CardFooter } from "@material-tailwind/react";
 import Select from "react-select";
+import axios from "axios";
+import api from "../../utils/config";
 
 const options = [
   { value: "chocolate", label: "Abia" },
@@ -13,6 +15,37 @@ const options = [
   { value: "vanilla", label: "Akwa Ibom" },
 ];
 export default function TestCenterForm(props) {
+  const [userData, setUserData] = useState({});
+  const [statelist, setStatelist] = useState([]);
+  const [uniOptions, setUniOptions] = useState([]);
+  const [lgalist, setLgalist] = useState([]);
+  const [facOptions, setFacOptions] = useState([]);
+  const [entryYearOptions, setEntryYearOptions] = useState([]);
+  const [gradYearOptions, setGradYearOptions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [errMsg, setErrMsg] = useState([]);
+
+  const loadData = () => {
+    axios
+      .get(api.API_URL + "/api/Institution", {
+        headers: {
+          Authorization: "Bearer " + localStorage.token,
+        },
+      })
+      .then((result) => {
+        // setUserData(result.data.formData);
+        // // setLgalist(result.data.lgaList);
+        // // setStatelist(result.data.stateList);
+        // createUniOptions(result.data.institutionList);
+        // createFacOptions(result.data.facultyList);
+        // setLoading(false);
+      })
+      .catch((error) => {
+        if (error.response && error.response.status === 401) {
+        }
+      });
+  };
+
   return (
     <Card>
       <CardHeader color="orange" contentPosition="none" size="sm">
