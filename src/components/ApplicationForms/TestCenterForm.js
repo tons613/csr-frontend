@@ -38,7 +38,7 @@ export default function TestCenterForm(props) {
         // // setStatelist(result.data.stateList);
         // createUniOptions(result.data.institutionList);
         // createFacOptions(result.data.facultyList);
-        // setLoading(false);
+        setLoading(false);
       })
       .catch((error) => {
         if (error.response && error.response.status === 401) {
