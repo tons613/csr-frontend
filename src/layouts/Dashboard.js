@@ -42,7 +42,7 @@ const Dashboard = (props) => {
 
   const checkAuth = () => {
     const { isAuthenticated, currentUser, loading } = props.auth;
-    console.log("ddddds", loading);
+    // console.log("ddddds", loading);
     if (!loading && !isAuthenticated && isEmpty(currentUser)) {
       props.history.push("/auth/login");
     }

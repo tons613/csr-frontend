@@ -17,7 +17,7 @@ const authReducer = (state = iniState, action) => {
       };
 
     case "LOGIN_SUCCESS":
-      // console.log("login success");
+      console.log("login success");
       return {
         ...state,
         currentUser: action.payload,
