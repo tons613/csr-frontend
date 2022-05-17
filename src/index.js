@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import App from 'App';
 import reportWebVitals from './reportWebVitals';
-import store from "store/store";
+import store from "redux/store";
 import { Provider } from "react-redux";
 import setAuthorizationToken from "utils/TokenInterceptor";
 import "@fortawesome/fontawesome-free/css/all.min.css";

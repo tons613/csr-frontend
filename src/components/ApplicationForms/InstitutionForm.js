@@ -11,12 +11,7 @@ import axios from "axios";
 import api from "../../utils/config";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-
-const options = [
-  { value: "chocolate", label: "Abia" },
-  { value: "strawberry", label: "Adamawa" },
-  { value: "vanilla", label: "Akwa Ibom" },
-];
+import { PostInstitution } from "../../redux/actions/ApplicationActions";
 
 function InstitutionForm(props) {
   const [userData, setUserData] = useState({});
@@ -27,6 +22,7 @@ function InstitutionForm(props) {
   const [entryYearOptions, setEntryYearOptions] = useState([]);
   const [gradYearOptions, setGradYearOptions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [errMsg, setErrMsg] = useState([]);
 
   const loadData = () => {
     axios
@@ -71,11 +67,29 @@ function InstitutionForm(props) {
 
   const handleSubmit = () => {
     setLoading(true);
-    props.nextStep();
-    // props.PostContactDetail(userData).then(() => {
-    //   setLoading(false);
-    //   props.nextStep();
-    // });
+
+    props
+      .PostInstitution(userData)
+      .then(() => {
+        setLoading(false);
+        props.nextStep();
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.log(error.response);
+        var errmsg = [];
+        if (error.response) {
+          for (const [key, value] of Object.entries(error.response.data)) {
+            errmsg.push(value);
+            console.log(value);
+          }
+        } else {
+          errmsg.push(
+            "An Error ocurred. Request could not be processed. Please try again later"
+          );
+        }
+        setErrMsg(errmsg);
+      });
   };
 
   const handleChange = (e) => {
@@ -119,7 +133,7 @@ function InstitutionForm(props) {
     }
     return options;
   };
-
+  console.log(userData);
   return (
     <Card>
       <CardHeader color="orange" contentPosition="none" size="sm">
@@ -131,6 +145,18 @@ function InstitutionForm(props) {
         </div>
       </CardHeader>
       <CardBody>
+        {errMsg && errMsg.length > 0 && (
+          <div
+            className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-8 mx-5"
+            role="alert"
+          >
+            <span className="block sm:inline">
+              {errMsg.map((err) => (
+                <li className="text-sm">{err}</li>
+              ))}
+            </span>
+          </div>
+        )}
         <form>
           <h6 className="text-purple-500 text-sm mt-3 mb-6 font-light uppercase">
             Educational Information
@@ -139,14 +165,34 @@ function InstitutionForm(props) {
             <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
               {/* <Label color="transparent">University</Label> */}
               <Select
-                label="Unn"
                 options={uniOptions}
                 placeholder="University"
-                alwaysDisplayPlaceholder
+                value={uniOptions.filter(
+                  (option) => option.value === userData.university
+                )}
+                onChange={(e) =>
+                  setUserData({
+                    ...userData,
+                    university: e.value,
+                  })
+                }
               />
             </div>
             <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
-              <Select options={facOptions} placeholder="Faculty" />
+              <Select
+                isRrequired
+                options={facOptions}
+                placeholder="Faculty"
+                value={facOptions.filter(
+                  (option) => option.value === userData.faculty
+                )}
+                onChange={(e) =>
+                  setUserData({
+                    ...userData,
+                    faculty: e.value,
+                  })
+                }
+              />
             </div>
             <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
               <Input
@@ -154,12 +200,28 @@ function InstitutionForm(props) {
                 color="blue"
                 placeholder="Department"
                 outline={true}
+                onChange={handleChange}
+                defaultValue={userData.department}
+                id="department"
+                required
               />
             </div>
           </div>
           <div className="flex flex-wrap mt-10">
             <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
-              <Select options={entryYearOptions} placeholder="Entry Year" />
+              <Select
+                options={entryYearOptions}
+                placeholder="Entry Year"
+                value={entryYearOptions.filter(
+                  (option) => option.value === userData.entryYear
+                )}
+                onChange={(e) =>
+                  setUserData({
+                    ...userData,
+                    entryYear: e.value,
+                  })
+                }
+              />
             </div>
             <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
               <Select
@@ -168,10 +230,34 @@ function InstitutionForm(props) {
                   { value: "200L", label: "200 Level" },
                 ]}
                 placeholder="Current year of study"
+                value={[
+                  {
+                    value: userData.currentStudyYear,
+                    label: userData.currentStudyYear,
+                  },
+                ]}
+                onChange={(e) =>
+                  setUserData({
+                    ...userData,
+                    currentStudyYear: e.value,
+                  })
+                }
               />
             </div>
             <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
-              <Select options={gradYearOptions} placeholder="Graduation year" />
+              <Select
+                options={gradYearOptions}
+                placeholder="Graduation year"
+                value={gradYearOptions.filter(
+                  (option) => option.value === userData.graduationYear
+                )}
+                onChange={(e) =>
+                  setUserData({
+                    ...userData,
+                    graduationYear: e.value,
+                  })
+                }
+              />
             </div>
           </div>
           <div className="flex flex-wrap mt-10">
@@ -181,6 +267,9 @@ function InstitutionForm(props) {
                 color="purple"
                 placeholder="Matriculation number"
                 outline={true}
+                onChange={handleChange}
+                id="matricNum"
+                defaultValue={userData.matricNum}
               />
             </div>
             <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
@@ -190,6 +279,18 @@ function InstitutionForm(props) {
                   { value: "Sandwith/Part-time", label: "Sandwith/Part-time" },
                 ]}
                 placeholder="Programme type"
+                value={[
+                  {
+                    value: userData.programmeType,
+                    label: userData.programmeType,
+                  },
+                ]}
+                onChange={(e) =>
+                  setUserData({
+                    ...userData,
+                    programmeType: e.value,
+                  })
+                }
               />
             </div>
             <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
@@ -199,6 +300,15 @@ function InstitutionForm(props) {
                   { value: "5-Point", label: "5-Point Scale" },
                 ]}
                 placeholder="Grade scale"
+                value={[
+                  { value: userData.gradeScale, label: userData.gradeScale },
+                ]}
+                onChange={(e) =>
+                  setUserData({
+                    ...userData,
+                    gradeScale: e.value,
+                  })
+                }
               />
             </div>
           </div>
@@ -209,6 +319,9 @@ function InstitutionForm(props) {
                 color="purple"
                 placeholder="CGPA"
                 outline={true}
+                onChange={handleChange}
+                defaultValue={userData.cgpa}
+                id="cgpa"
               />
             </div>
             <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
@@ -217,6 +330,9 @@ function InstitutionForm(props) {
                 color="purple"
                 placeholder="JAMB/UTME Score"
                 outline={true}
+                onChange={handleChange}
+                defaultValue={userData.jambScore}
+                id="jambScore"
               />
             </div>
             <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
@@ -225,6 +341,9 @@ function InstitutionForm(props) {
                 color="purple"
                 placeholder="Post-UTME Score"
                 outline={true}
+                onChange={handleChange}
+                defaultValue={userData.postUTMEScore}
+                id="postUTMEScore"
               />
             </div>
           </div>
@@ -255,7 +374,6 @@ function InstitutionForm(props) {
               "Save and Continue"
             ) : (
               <>
-                {" "}
                 Processing... <i className="fa fa-spinner fa-2x fa-spin"></i>
               </>
             )}
@@ -266,4 +384,4 @@ function InstitutionForm(props) {
   );
 }
 
-export default withRouter(connect(null, {})(InstitutionForm));
+export default withRouter(connect(null, { PostInstitution })(InstitutionForm));

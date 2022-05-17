@@ -12,7 +12,7 @@ import Page from "components/login/Page";
 import Container from "components/login/Container";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { signIn } from "../store/actions/authActions";
+import { signIn } from "../redux/actions/authActions";
 import isEmpty from "lodash/isEmpty";
 
 function Login(props) {

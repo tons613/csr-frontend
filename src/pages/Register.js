@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import api from "../utils/config";
 import { connect } from "react-redux";
-import { createAccount } from "../store/actions/authActions";
+import { createAccount } from "../redux/actions/authActions";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 

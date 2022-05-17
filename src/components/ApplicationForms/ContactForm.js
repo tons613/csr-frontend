@@ -13,7 +13,7 @@ import api from "../../utils/config";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { PostContactDetail } from "../../store/actions/ApplicationActions";
+import { PostContactDetail } from "../../redux/actions/ApplicationActions";
 
 function ContactForm(props) {
   useEffect(() => {

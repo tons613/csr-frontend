@@ -1,9 +1,9 @@
 import axios from "axios";
-import store from "../store/store";
+import store from "../redux/store";
 import {
   setCurrentUser,
   removeCurrentUser,
-} from "../store/actions/authActions";
+} from "../redux/actions/authActions";
 import api from "./config";
 
 export default function setAuthorizationToken() {
