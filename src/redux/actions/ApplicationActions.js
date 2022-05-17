@@ -47,7 +47,7 @@ export const PostTestCenter = (data) => {
   return function (dispatch, getState) {
     let promise = new Promise(function (resolve, reject) {
       axios
-        .post(api.API_URL + "/api/contact_biodata", data, {
+        .post(api.API_URL + "/api/CenterChoice", data, {
           headers: {
             Authorization: "Bearer " + localStorage.token,
           },

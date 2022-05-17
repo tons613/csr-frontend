@@ -15,9 +15,7 @@ import { PostInstitution } from "../../redux/actions/ApplicationActions";
 
 function InstitutionForm(props) {
   const [userData, setUserData] = useState({});
-  const [statelist, setStatelist] = useState([]);
   const [uniOptions, setUniOptions] = useState([]);
-  const [lgalist, setLgalist] = useState([]);
   const [facOptions, setFacOptions] = useState([]);
   const [entryYearOptions, setEntryYearOptions] = useState([]);
   const [gradYearOptions, setGradYearOptions] = useState([]);
@@ -33,8 +31,6 @@ function InstitutionForm(props) {
       })
       .then((result) => {
         setUserData(result.data.formData);
-        // setLgalist(result.data.lgaList);
-        // setStatelist(result.data.stateList);
         createUniOptions(result.data.institutionList);
         createFacOptions(result.data.facultyList);
         setLoading(false);
