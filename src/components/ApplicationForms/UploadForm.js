@@ -23,17 +23,21 @@ export default function UploadForm(props) {
           <h6 className="text-purple-500 text-sm mt-3 mb-6 font-light uppercase">
             User Information
           </h6>
+          <div className="flex flex-wrap mt-10">Upload Passport</div>
           <div className="flex flex-wrap mt-10">
-            <UploadFiles title="SSCE Result" />
+            <UploadFiles title="SSCE Result" docType="SSCE" />
           </div>
           <div className="flex flex-wrap mt-10">
-            <UploadFiles title="A-Level Result" />
+            <UploadFiles title="A-Level Result" docType="A-Level" />
           </div>
           <div className="flex flex-wrap mt-10">
-            <UploadFiles title="Admission Letter" />
+            <UploadFiles title="Admission Letter" docType="Admission-letter" />
           </div>
           <div className="flex flex-wrap mt-10">
-            <UploadFiles title="LGA Letter of Identification" />
+            <UploadFiles
+              title="LGA Letter of Identification"
+              docType="Letter-of-id-lga"
+            />
           </div>
         </form>
 

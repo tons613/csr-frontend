@@ -1,14 +1,9 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import LinearProgress from "@material-ui/core/LinearProgress";
-import {
-  Box,
-  Typography,
-  Button,
-  ListItem,
-  withStyles,
-} from "@material-ui/core";
+import { Box, Typography, Button, withStyles } from "@material-ui/core";
 import UploadService from "services/upload-files.service";
 import Input from "@material-tailwind/react/Input";
+import { Alert } from "@material-tailwind/react";
 
 const BorderLinearProgress = withStyles((theme) => ({
   root: {
@@ -31,9 +26,11 @@ const UploadFiles = (props) => {
   const [message, setMessage] = useState("");
   const [isError, setIsError] = useState(false);
   const [fileInfos, setFileInfos] = useState([]);
+  const { title, docType } = props;
+  const [show, setShow] = useState(true);
 
   useEffect(() => {
-    UploadService.getFiles().then((response) => {
+    UploadService.getFiles(docType).then((response) => {
       setFileInfos(response.data);
     });
   }, []);
@@ -46,13 +43,13 @@ const UploadFiles = (props) => {
     let currentFile = selectedFiles[0];
     setProgress(0);
     setCurrentFile(currentFile);
-    UploadService.upload(currentFile, (event) => {
+    UploadService.upload(currentFile, docType, (event) => {
       setProgress(Math.round((100 * event.loaded) / event.total));
     })
       .then((response) => {
         setMessage(response.data.message);
         setIsError(false);
-        return UploadService.getFiles();
+        return UploadService.getFiles(docType);
       })
       .then((files) => {
         setFileInfos(files.data);
@@ -70,7 +67,6 @@ const UploadFiles = (props) => {
     setCurrentFile(undefined);
     setFileInfos([]);
   };
-  const { title } = props;
   return (
     <div className="lg:w-6/12 w-full">
       <Typography variant="caption">{title}</Typography>
@@ -87,11 +83,22 @@ const UploadFiles = (props) => {
           </Box>
         </Box>
       )}
-      {!fileInfos && Object.keys(fileInfos).length > 0 ? (
-        <div>
-          <a href={fileInfos.url} target="_blank">
-            {fileInfos.name}
-          </a>
+      {fileInfos && Object.keys(fileInfos).length > 0 ? (
+        <div className="w-6/12">
+          <Fragment>
+            <Alert
+              color="gray"
+              variant="gradient"
+              dismissible={{
+                onclick: () => alert("dkdid"),
+                onClose: () => setShow(false),
+              }}
+            >
+              <a href={fileInfos.filepath} target="_blank">
+                File Uploaded
+              </a>
+            </Alert>
+          </Fragment>
         </div>
       ) : (
         <div>
