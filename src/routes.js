@@ -61,11 +61,11 @@ var routes = [
     layout: "/auth",
   },
   {
-    path: "/register",
+    path: "/apply",
     name: "Register",
     icon: "ni ni-circle-08 text-pink",
     component: Register,
-    layout: "/auth",
+    layout: "/home",
   },
   // {
   //   path: "/verify",

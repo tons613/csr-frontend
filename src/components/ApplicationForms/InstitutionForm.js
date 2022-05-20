@@ -52,7 +52,7 @@ function InstitutionForm(props) {
   }, []);
 
   const checkRegStatus = () => {
-    if (!loading && userData.registrationStatus !== "2") {
+    if (!loading && userData?.registrationStatus !== "2") {
       props.history.push("/dashboard");
     }
   };
@@ -164,7 +164,7 @@ function InstitutionForm(props) {
                 options={uniOptions}
                 placeholder="University"
                 value={uniOptions.filter(
-                  (option) => option.value === userData.university
+                  (option) => option.value === userData?.university
                 )}
                 onChange={(e) =>
                   setUserData({
@@ -180,7 +180,7 @@ function InstitutionForm(props) {
                 options={facOptions}
                 placeholder="Faculty"
                 value={facOptions.filter(
-                  (option) => option.value === userData.faculty
+                  (option) => option.value === userData?.faculty
                 )}
                 onChange={(e) =>
                   setUserData({
@@ -197,7 +197,7 @@ function InstitutionForm(props) {
                 placeholder="Department"
                 outline={true}
                 onChange={handleChange}
-                defaultValue={userData.department}
+                defaultValue={userData?.department}
                 id="department"
                 required
               />
@@ -209,7 +209,7 @@ function InstitutionForm(props) {
                 options={entryYearOptions}
                 placeholder="Entry Year"
                 value={entryYearOptions.filter(
-                  (option) => option.value === userData.entryYear
+                  (option) => option.value === userData?.entryYear
                 )}
                 onChange={(e) =>
                   setUserData({
@@ -228,8 +228,8 @@ function InstitutionForm(props) {
                 placeholder="Current year of study"
                 value={[
                   {
-                    value: userData.currentStudyYear,
-                    label: userData.currentStudyYear,
+                    value: userData?.currentStudyYear,
+                    label: userData?.currentStudyYear,
                   },
                 ]}
                 onChange={(e) =>
@@ -245,7 +245,7 @@ function InstitutionForm(props) {
                 options={gradYearOptions}
                 placeholder="Graduation year"
                 value={gradYearOptions.filter(
-                  (option) => option.value === userData.graduationYear
+                  (option) => option.value === userData?.graduationYear
                 )}
                 onChange={(e) =>
                   setUserData({
@@ -265,7 +265,7 @@ function InstitutionForm(props) {
                 outline={true}
                 onChange={handleChange}
                 id="matricNum"
-                defaultValue={userData.matricNum}
+                defaultValue={userData?.matricNum}
               />
             </div>
             <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
@@ -277,8 +277,8 @@ function InstitutionForm(props) {
                 placeholder="Programme type"
                 value={[
                   {
-                    value: userData.programmeType,
-                    label: userData.programmeType,
+                    value: userData?.programmeType,
+                    label: userData?.programmeType,
                   },
                 ]}
                 onChange={(e) =>
@@ -297,7 +297,7 @@ function InstitutionForm(props) {
                 ]}
                 placeholder="Grade scale"
                 value={[
-                  { value: userData.gradeScale, label: userData.gradeScale },
+                  { value: userData?.gradeScale, label: userData?.gradeScale },
                 ]}
                 onChange={(e) =>
                   setUserData({
@@ -316,7 +316,7 @@ function InstitutionForm(props) {
                 placeholder="CGPA"
                 outline={true}
                 onChange={handleChange}
-                defaultValue={userData.cgpa}
+                defaultValue={userData?.cgpa}
                 id="cgpa"
               />
             </div>
@@ -327,7 +327,7 @@ function InstitutionForm(props) {
                 placeholder="JAMB/UTME Score"
                 outline={true}
                 onChange={handleChange}
-                defaultValue={userData.jambScore}
+                defaultValue={userData?.jambScore}
                 id="jambScore"
               />
             </div>
@@ -338,7 +338,7 @@ function InstitutionForm(props) {
                 placeholder="Post-UTME Score"
                 outline={true}
                 onChange={handleChange}
-                defaultValue={userData.postUTMEScore}
+                defaultValue={userData?.postUTMEScore}
                 id="postUTMEScore"
               />
             </div>

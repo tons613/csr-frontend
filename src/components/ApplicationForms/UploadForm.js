@@ -6,8 +6,26 @@ import Input from "@material-tailwind/react/Input";
 import Textarea from "@material-tailwind/react/Textarea";
 import { CardFooter } from "@material-tailwind/react";
 import UploadFiles from "components/FilesUpload.component";
+import Image from "@material-tailwind/react/Image";
+import { useEffect, useState } from "react";
+import uploadFilesService from "services/upload-files.service";
+import defaultImg from "assets/img/default-avatar.png";
+import { Typography } from "@material-ui/core";
+import api from "../../utils/config";
 
 export default function UploadForm(props) {
+  const [imageSrc, setImageSrc] = useState(defaultImg);
+  useEffect(() => {
+    getPassport();
+  }, []);
+
+  const getPassport = () => {
+    uploadFilesService.getFiles("Passport").then((response) => {
+      if (response.data.filepath)
+        setImageSrc(`${api.API_URL}/${response.data.filepath}`);
+      else setImageSrc(defaultImg);
+    });
+  };
   return (
     <Card>
       <CardHeader color="orange" contentPosition="none" size="sm">
@@ -20,10 +38,24 @@ export default function UploadForm(props) {
       </CardHeader>
       <CardBody>
         <form>
-          <h6 className="text-purple-500 text-sm mt-3 mb-6 font-light uppercase">
+          {/* <h6 className="text-purple-500 text-sm mt-3 mb-6 font-light uppercase">
             User Information
-          </h6>
-          <div className="flex flex-wrap mt-10">Upload Passport</div>
+          </h6> */}
+          <div className="grid grid-cols-2 mt-10 ml-10 pb-10">
+            <div className="col-span-2 mb-3">
+              <Image src={imageSrc} style={{ width: 120, height: 120 }} />
+            </div>
+
+            <div className="grid-cols-8">
+              <UploadFiles
+                title="Recent Passport"
+                docType="Passport"
+                getPassport={getPassport}
+              />
+            </div>
+            <hr />
+          </div>
+
           <div className="flex flex-wrap mt-10">
             <UploadFiles title="SSCE Result" docType="SSCE" />
           </div>

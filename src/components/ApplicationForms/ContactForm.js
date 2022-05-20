@@ -25,7 +25,7 @@ function ContactForm(props) {
   const [stateOptions, setStateOptions] = useState([]);
   const [lgalist, setLgalist] = useState([]);
   const [lgaOptions, setLgaOptions] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const loadData = () => {
     axios
@@ -52,7 +52,7 @@ function ContactForm(props) {
   };
 
   const checkRegStatus = () => {
-    if (!loading && userData.registrationStatus !== "2") {
+    if (!loading && userData?.registrationStatus !== "2") {
       props.history.push("/dashboard");
     }
   };
@@ -123,7 +123,7 @@ function ContactForm(props) {
   };
 
   // alert();
-  // console.log("deded", formatDate(userData.dob));
+  // console.log("deded", formatDate(userData?.dob));
   return (
     <Card>
       <CardHeader color="orange" contentPosition="none" size="sm">
@@ -146,7 +146,7 @@ function ContactForm(props) {
                 color="purple"
                 placeholder="Country"
                 outline={true}
-                defaultValue={userData.country}
+                defaultValue={userData?.country}
                 readOnly
               />
             </div>
@@ -158,7 +158,7 @@ function ContactForm(props) {
                 outline={true}
                 type="date"
                 id="dob"
-                defaultValue={userData.dob}
+                defaultValue={userData?.dob}
                 onChange={handleChange}
               />
             </div>
@@ -169,7 +169,7 @@ function ContactForm(props) {
                   { value: "Female", label: "Female" },
                 ]}
                 placeholder="Gender"
-                value={[{ value: userData.gender, label: userData.gender }]}
+                value={[{ value: userData?.gender, label: userData?.gender }]}
                 onChange={(e) => setUserData({ ...userData, gender: e.value })}
               />
             </div>
@@ -180,7 +180,7 @@ function ContactForm(props) {
                 options={stateOptions}
                 placeholder="State of Origin"
                 value={stateOptions.filter(
-                  (option) => option.value === userData.stateOrigin
+                  (option) => option.value === userData?.stateOrigin
                 )}
                 onChange={handleChangeState}
               />
@@ -191,7 +191,7 @@ function ContactForm(props) {
                 placeholder="Local Govt Area"
                 id="lga"
                 value={lgaOptions.filter(
-                  (option) => option.value === userData.lga
+                  (option) => option.value === userData?.lga
                 )}
                 onChange={handleChangeLGA}
               />
@@ -201,7 +201,7 @@ function ContactForm(props) {
                 type="text"
                 color="purple"
                 placeholder="Geo Political Zone"
-                defaultValue={userData.geoPolZone}
+                defaultValue={userData?.geoPolZone}
                 outline={true}
                 onChange={handleChange}
                 readOnly
@@ -216,7 +216,8 @@ function ContactForm(props) {
                 placeholder="Resident Address"
                 id="residentAddress"
                 outline={true}
-                defaultValue={userData.residentAddress}
+                defaultValue={userData?.residentAddress}
+                onChange={handleChange}
               />
             </div>
             <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
@@ -224,7 +225,7 @@ function ContactForm(props) {
                 max="2010-12-31"
                 color="purple"
                 placeholder="City"
-                defaultValue={userData.city}
+                defaultValue={userData?.city}
                 outline={true}
                 onChange={handleChange}
                 id="city"
@@ -235,7 +236,7 @@ function ContactForm(props) {
                 options={stateOptions}
                 placeholder="State of Residence"
                 value={stateOptions.filter(
-                  (option) => option.value === userData.stateResidence
+                  (option) => option.value === userData?.stateResidence
                 )}
                 onChange={(e) =>
                   setUserData({

@@ -12,11 +12,7 @@ import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { PostTestCenter } from "../../redux/actions/ApplicationActions";
 
-const options = [
-  { value: "chocolate", label: "Abia" },
-  { value: "strawberry", label: "Adamawa" },
-  { value: "vanilla", label: "Akwa Ibom" },
-];
+
 function TestCenterForm(props) {
   const [userData, setUserData] = useState({});
   const [choice1Options, setChoice1Options] = useState([]);
@@ -114,7 +110,7 @@ function TestCenterForm(props) {
                 options={choice1Options}
                 placeholder="First choice center"
                 value={choice1Options.filter(
-                  (option) => option.value === userData.firstTestCenter
+                  (option) => option.value === userData?.firstTestCenter
                 )}
                 onChange={(e) =>
                   setUserData({
@@ -129,7 +125,7 @@ function TestCenterForm(props) {
                 options={choice2Options}
                 placeholder="Second choice center"
                 value={choice2Options.filter(
-                  (option) => option.value === userData.secondTestCenter
+                  (option) => option.value === userData?.secondTestCenter
                 )}
                 onChange={(e) =>
                   setUserData({
@@ -148,7 +144,7 @@ function TestCenterForm(props) {
                 text="Yes"
                 id="PreviouslyBenefited"
                 name="PreviouslyBenefited"
-                defaultChecked={userData.previouslyBenefited === "Y"}
+                defaultChecked={userData?.previouslyBenefited === "Y"}
                 value="Y"
               />
               <Radio
@@ -156,7 +152,7 @@ function TestCenterForm(props) {
                 text="No"
                 id="PreviouslyBenefited1"
                 name="PreviouslyBenefited"
-                defaultChecked={userData.previouslyBenefited === "N"}
+                defaultChecked={userData?.previouslyBenefited === "N"}
                 value="N"
               />
             </div>

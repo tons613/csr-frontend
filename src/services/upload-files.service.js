@@ -22,5 +22,13 @@ class UploadFilesService {
       },
     });
   }
+
+  deleteFile(docId) {
+    return axios.delete(api.API_URL + "/api/delete_file/" + docId, {
+      headers: {
+        Authorization: "Bearer " + localStorage.token,
+      },
+    });
+  }
 }
 export default new UploadFilesService();

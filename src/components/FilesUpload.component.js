@@ -1,9 +1,11 @@
 import React, { Fragment, useEffect, useState } from "react";
 import LinearProgress from "@material-ui/core/LinearProgress";
-import { Box, Typography, Button, withStyles } from "@material-ui/core";
+import { Box, Typography, Button, withStyles, Chip } from "@material-ui/core";
 import UploadService from "services/upload-files.service";
 import Input from "@material-tailwind/react/Input";
 import { Alert } from "@material-tailwind/react";
+import api from "../utils/config";
+import Swal from "sweetalert2";
 
 const BorderLinearProgress = withStyles((theme) => ({
   root: {
@@ -26,7 +28,7 @@ const UploadFiles = (props) => {
   const [message, setMessage] = useState("");
   const [isError, setIsError] = useState(false);
   const [fileInfos, setFileInfos] = useState([]);
-  const { title, docType } = props;
+  const { title, docType, getPassport } = props;
   const [show, setShow] = useState(true);
 
   useEffect(() => {
@@ -49,6 +51,10 @@ const UploadFiles = (props) => {
       .then((response) => {
         setMessage(response.data.message);
         setIsError(false);
+        if (getPassport) {
+          getPassport();
+        }
+
         return UploadService.getFiles(docType);
       })
       .then((files) => {
@@ -63,9 +69,27 @@ const UploadFiles = (props) => {
     setSelectedFiles(undefined);
   };
 
-  const deleteFile = () => {
-    setCurrentFile(undefined);
-    setFileInfos([]);
+  const deleteFile = (docId) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        UploadService.deleteFile(docId).then(() => {
+          if (getPassport) {
+            getPassport();
+          }
+          setCurrentFile(undefined);
+          setFileInfos([]);
+          Swal.fire("Deleted!", "Your file has been deleted.", "success");
+        });
+      }
+    });
   };
   return (
     <div className="lg:w-6/12 w-full">
@@ -84,22 +108,36 @@ const UploadFiles = (props) => {
         </Box>
       )}
       {fileInfos && Object.keys(fileInfos).length > 0 ? (
-        <div className="w-6/12">
-          <Fragment>
-            <Alert
-              color="gray"
-              variant="gradient"
-              dismissible={{
-                onclick: () => alert("dkdid"),
-                onClose: () => setShow(false),
-              }}
-            >
-              <a href={fileInfos.filepath} target="_blank">
-                File Uploaded
-              </a>
-            </Alert>
-          </Fragment>
-        </div>
+        getPassport ? (
+          <>
+            <span className="bg-[#D56947] px-1 rounded  ml-5 cursor-pointer">
+              <i
+                className="fa-solid fa-xmark"
+                onClick={() => deleteFile(fileInfos.docId)}
+              ></i>
+            </span>
+          </>
+        ) : (
+          <div className="w-11/12">
+            <Fragment>
+              <div className="bg-[#8CC1C1] p-1 px-2 rounded ">
+                <a
+                  href={`${api.API_URL}/${fileInfos.filepath}`}
+                  target="_blank"
+                  className="text-white"
+                >
+                  View uploaded file
+                </a>
+                <span className="bg-[#D56947] px-1 rounded float-right cursor-pointer">
+                  <i
+                    className="fa-solid fa-xmark"
+                    onClick={() => deleteFile(fileInfos.docId)}
+                  ></i>
+                </span>
+              </div>
+            </Fragment>
+          </div>
+        )
       ) : (
         <div>
           <input
