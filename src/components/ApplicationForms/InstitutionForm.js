@@ -30,6 +30,9 @@ function InstitutionForm(props) {
         },
       })
       .then((result) => {
+        if (result.data.registrationStatus !== "2") {
+          props.history.push("/dashboard");
+        }
         setUserData(result.data.formData);
         createUniOptions(result.data.institutionList);
         createFacOptions(result.data.facultyList);
@@ -49,16 +52,6 @@ function InstitutionForm(props) {
     setGradYearOptions(
       createYearOptions(new Date().getFullYear(), new Date().getFullYear() + 6)
     );
-  }, []);
-
-  const checkRegStatus = () => {
-    if (!loading && userData?.registrationStatus !== "2") {
-      props.history.push("/dashboard");
-    }
-  };
-
-  useEffect(() => {
-    checkRegStatus();
   }, []);
 
   const handleSubmit = () => {
@@ -129,7 +122,7 @@ function InstitutionForm(props) {
     }
     return options;
   };
-  console.log(userData);
+
   return (
     <Card>
       <CardHeader color="orange" contentPosition="none" size="sm">

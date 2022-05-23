@@ -64,15 +64,19 @@ export const PostTestCenter = (data) => {
   };
 };
 
-export const SubmitForm = (data) => {
+export const SubmitForm = () => {
   return function (dispatch, getState) {
     let promise = new Promise(function (resolve, reject) {
       axios
-        .post(api.API_URL + "/api/CenterChoice", data, {
-          headers: {
-            Authorization: "Bearer " + localStorage.token,
-          },
-        })
+        .post(
+          api.API_URL + "/api/applicationcomplete",
+          {},
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.token,
+            },
+          }
+        )
         .then((response) => {
           resolve(response);
         })

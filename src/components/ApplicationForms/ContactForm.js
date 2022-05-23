@@ -35,6 +35,9 @@ function ContactForm(props) {
         },
       })
       .then((result) => {
+        if (result.data.registrationStatus !== "2") {
+          props.history.push("/dashboard");
+        }
         setUserData(result.data.contactData);
         setLgalist(result.data.lgaList);
         setStatelist(result.data.stateList);
@@ -58,7 +61,7 @@ function ContactForm(props) {
   };
 
   useEffect(() => {
-    checkRegStatus();
+    // checkRegStatus();
   }, []);
 
   const handleSubmit = () => {

@@ -14,7 +14,7 @@ import { SubmitForm } from "../../redux/actions/ApplicationActions";
 import Swal from "sweetalert2";
 import { withRouter } from "react-router-dom";
 
-function FormSummary(props) {
+function MyApplicationInfo(props) {
   const [userData, setUserData] = useState({});
   const [userfiles, setUserfiles] = useState([]);
   const [passport, setPassprt] = useState("");
@@ -75,8 +75,8 @@ function FormSummary(props) {
         },
       })
       .then((result) => {
-        if (result.data.registrationStatus !== "2") {
-          props.history.push("/dashboard");
+        if (result.data.registrationStatus === "2") {
+          props.history.push("/dashboard/Application");
         }
         setUserData(result.data.userdata);
         setUserfiles(result.data.userfiles);
@@ -96,10 +96,7 @@ function FormSummary(props) {
     <Card>
       <CardHeader color="orange" contentPosition="none" size="sm">
         <div className="w-full flex items-center justify-between">
-          <h6 className="text-lg">Review Your Submitted Information</h6>
-          <h6 className="text-sm">
-            Step {props.currentStep} of {props.totalSteps}
-          </h6>
+          <h6 className="text-lg">My Application Information</h6>
         </div>
       </CardHeader>
       <CardBody>
@@ -117,7 +114,6 @@ function FormSummary(props) {
           <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
             <Input
               type="text"
-              
               placeholder="Country"
               outline={true}
               defaultValue={userData?.country}
@@ -127,23 +123,15 @@ function FormSummary(props) {
           <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
             <Input
               type="text"
-              
               placeholder="Date of birth"
               outline={true}
-              defaultValue={new Date(userData?.dob).toLocaleDateString(
-                "en-gb",
-                {
-                  day: "2-digit",
-                  month: "long",
-                }
-              )}
+              defaultValue={userData?.dob}
               readOnly
             />
           </div>
           <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
             <Input
               type="text"
-              
               placeholder="Gender"
               outline={true}
               defaultValue={userData?.gender}
@@ -155,7 +143,6 @@ function FormSummary(props) {
           <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
             <Input
               type="text"
-              
               placeholder="State of origin"
               outline={true}
               defaultValue={userData?.country}
@@ -165,7 +152,6 @@ function FormSummary(props) {
           <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
             <Input
               type="text"
-              
               placeholder="Local Govt Area"
               outline={true}
               defaultValue={userData?.country}
@@ -175,7 +161,6 @@ function FormSummary(props) {
           <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
             <Input
               type="text"
-              
               placeholder="Geo Political Zone"
               defaultValue={userData?.geoPolZone}
               outline={true}
@@ -187,18 +172,15 @@ function FormSummary(props) {
           <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
             <Input
               type="text"
-              
               placeholder="Resident Address"
-              id="residentAddress"
+              readOnly
               outline={true}
               defaultValue={userData?.residentAddress}
-              readOnly
             />
           </div>
           <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
             <Input
               max="2010-12-31"
-              
               placeholder="City"
               defaultValue={userData?.city}
               outline={true}
@@ -208,7 +190,6 @@ function FormSummary(props) {
           <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
             <Input
               max="2010-12-31"
-              
               placeholder="State of resident"
               defaultValue={userData?.city}
               outline={true}
@@ -225,7 +206,6 @@ function FormSummary(props) {
             {/* <Label color="transparent">University</Label> */}
             <Input
               max="2010-12-31"
-              
               placeholder="University"
               outline={true}
               defaultValue={userData?.university}
@@ -235,7 +215,6 @@ function FormSummary(props) {
           <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
             <Input
               max="2010-12-31"
-              
               placeholder="Faculty"
               outline={true}
               defaultValue={userData?.faculty}
@@ -259,31 +238,28 @@ function FormSummary(props) {
           <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
             <Input
               max="2010-12-31"
-              
               placeholder="Entry Year"
               outline={true}
               defaultValue={userData?.entryYear}
-              id="jambScore"
+              readOnly
             />
           </div>
           <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
             <Input
               max="2010-12-31"
-              
               placeholder="Current year of study"
               outline={true}
               defaultValue={userData?.currentStudyYear}
-              id="jambScore"
+              readOnly
             />
           </div>
           <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
             <Input
               max="2010-12-31"
-              
               placeholder="Graduation year"
               outline={true}
               defaultValue={userData?.graduationYear}
-              id="jambScore"
+              readOnly
             />
           </div>
         </div>
@@ -291,7 +267,6 @@ function FormSummary(props) {
           <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
             <Input
               type="text"
-              
               placeholder="Matriculation number"
               outline={true}
               readOnly
@@ -301,7 +276,6 @@ function FormSummary(props) {
           <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
             <Input
               max="2010-12-31"
-              
               placeholder="JAMB/UTME Score"
               outline={true}
               defaultValue={userData?.jambScore}
@@ -311,7 +285,6 @@ function FormSummary(props) {
           <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
             <Input
               max="2010-12-31"
-              
               placeholder="Programme type"
               outline={true}
               defaultValue={userData?.programmeType}
@@ -321,19 +294,17 @@ function FormSummary(props) {
         </div>
         <div className="flex flex-wrap mt-10">
           <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
-            {" "}
             <Input
               max="2010-12-31"
-              
               placeholder="CGPA"
               outline={true}
               defaultValue={userData?.cgpa}
+              readOnly
             />
           </div>
           <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
             <Input
               max="2010-12-31"
-              
               placeholder="Grade Scale"
               outline={true}
               defaultValue={userData?.gradeScale}
@@ -343,7 +314,6 @@ function FormSummary(props) {
           <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
             <Input
               type="text"
-              
               placeholder="Post-UTME Score"
               outline={true}
               defaultValue={userData?.postUTMEScore}
@@ -359,7 +329,6 @@ function FormSummary(props) {
           <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
             <Input
               type="text"
-              
               placeholder="First choice center"
               outline={true}
               defaultValue={userData?.firstTestCenter}
@@ -369,7 +338,6 @@ function FormSummary(props) {
           <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
             <Input
               type="text"
-              
               placeholder="Second choice center"
               outline={true}
               defaultValue={userData?.secondTestCenter}
@@ -435,20 +403,8 @@ function FormSummary(props) {
           </p> */}
         </div>
       </CardBody>
-      <CardFooter>
-        <div className="absolute bottom-5 left-5 ">
-          <Button color="gray" onClick={props.previousStep}>
-            Previous
-          </Button>
-        </div>
-        <div className="absolute bottom-5 right-5 ">
-          <Button color="green" onClick={handleSubmit}>
-            SUBMIT APPLICATION
-          </Button>
-        </div>
-      </CardFooter>
     </Card>
   );
 }
 
-export default withRouter(connect(null, { SubmitForm })(FormSummary));
+export default withRouter(connect(null, { SubmitForm })(MyApplicationInfo));

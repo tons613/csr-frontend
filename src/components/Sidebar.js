@@ -5,8 +5,11 @@ import Icon from "@material-tailwind/react/Icon";
 import H6 from "@material-tailwind/react/Heading6";
 import Logo from "assets/img/logo.png";
 import Image from "@material-tailwind/react/Image";
+import { connect } from "react-redux";
 
-export default function Sidebar() {
+function Sidebar(props) {
+  const { currentUser } = props.auth;
+  console.log(currentUser.registrationStatus);
   const [showSidebar, setShowSidebar] = useState("-left-64");
   return (
     <>
@@ -50,6 +53,31 @@ export default function Sidebar() {
                   My Application
                 </NavLink>
               </li>
+
+              {currentUser.registrationStatus === 3 && (
+                <li className="rounded-lg mb-2 text-gray-700">
+                  <NavLink
+                    to="/dashboard/examSlip"
+                    className="flex items-center gap-4 text-sm text-white font-light px-4 py-3 rounded-lg"
+                    activeClassName="bg-gradient-to-tr from-orange-500 to-deep-orange-700 text-white shadow-md"
+                  >
+                    <Icon name="toc" size="2xl" />
+                    Print Slip
+                  </NavLink>
+                </li>
+              )}
+              {currentUser.registrationStatus === 6 && (
+                <li className="rounded-lg mb-2 text-gray-700">
+                  <NavLink
+                    to="/dashboard/examSlip"
+                    className="flex items-center gap-4 text-sm text-white font-light px-4 py-3 rounded-lg"
+                    activeClassName="bg-gradient-to-tr from-orange-500 to-deep-orange-700 text-white shadow-md"
+                  >
+                    <Icon name="toc" size="2xl" />
+                    Bank Account
+                  </NavLink>
+                </li>
+              )}
               <li className="rounded-lg mb-2 text-gray-700">
                 <NavLink
                   to="/auth/login"
@@ -60,16 +88,6 @@ export default function Sidebar() {
                   Change Password
                 </NavLink>
               </li>
-              {/*<li className="rounded-lg mb-2 ">*/}
-              {/*    <NavLink*/}
-              {/*        to="/tables"*/}
-              {/*        className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"*/}
-              {/*        activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"*/}
-              {/*    >*/}
-              {/*        <Icon name="toc" size="2xl" />*/}
-              {/*        Tables*/}
-              {/*    </NavLink>*/}
-              {/*</li>*/}
               {/*<li className="rounded-lg mb-2 text-gray-700">*/}
               {/*    <NavLink*/}
               {/*        to="/login"*/}
@@ -80,7 +98,6 @@ export default function Sidebar() {
               {/*        Maps*/}
               {/*    </NavLink>*/}
               {/*</li>*/}
-
               {/*<li className="px-4 rounded-lg mb-2 text-gray-700">*/}
               {/*    <a*/}
               {/*        href="https://demos.creative-tim.com/material-tailwind-kit-react/#/register"*/}
@@ -145,3 +162,8 @@ export default function Sidebar() {
     </>
   );
 }
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+export default connect(mapStateToProps)(Sidebar);

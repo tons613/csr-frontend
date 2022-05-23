@@ -3,11 +3,12 @@ import Dashboard from "pages/Dashboard";
 import Settings from "pages/Settings";
 import Tables from "pages/Tables";
 import ApplicationForm from "pages/Application";
-import Footer from "components/Footer";
+import BankAccount from "pages/BankAccount";
 import Landing from "pages/Landing";
 import Profile from "pages/Profile";
 import Login from "pages/Login";
 import Register from "pages/Register";
+import PrintSlip from "pages/PrintSlip.js";
 
 var routes = [
   {
@@ -21,7 +22,7 @@ var routes = [
     path: "/",
     name: "Dashboard",
     icon: "ni ni-compass-04",
-    component: ApplicationForm,
+    component: Dashboard,
     // component: Dashboard,
     layout: "/dashboard",
   },
@@ -33,6 +34,13 @@ var routes = [
     layout: "/dashboard",
   },
   {
+    path: "/examSlip",
+    component: PrintSlip,
+    name: "Exam Slip",
+    layout: "/dashboard",
+    icon: "ni ni-money-coins",
+  },
+  {
     path: "/profile",
     name: "Account Profile",
     icon: "ni ni-single-02",
@@ -40,10 +48,10 @@ var routes = [
     layout: "/dashboard",
   },
   {
-    path: "/settings",
-    name: "Settings",
+    path: "/bank-account",
+    name: "Bank Details",
     icon: "ni ni-support-16",
-    component: Settings,
+    component: BankAccount,
     layout: "/dashboard",
   },
   {

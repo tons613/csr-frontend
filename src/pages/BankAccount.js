@@ -7,13 +7,13 @@ import Radio from "@material-tailwind/react/radio";
 import { CardFooter } from "@material-tailwind/react";
 import Select from "react-select";
 import axios from "axios";
-import api from "../../utils/config";
+import api from "../utils/config";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { PostTestCenter } from "../../redux/actions/ApplicationActions";
+import { PostTestCenter } from "../redux/actions/ApplicationActions";
 import { withRouter } from "react-router-dom";
 
-function TestCenterForm(props) {
+export default function BankAccount(props) {
   const [userData, setUserData] = useState({});
   const [choice1Options, setChoice1Options] = useState([]);
   const [choice2Options, setChoice2Options] = useState([]);
@@ -32,9 +32,9 @@ function TestCenterForm(props) {
         },
       })
       .then((result) => {
-        if (result.data.registrationStatus !== "2") {
-          props.history.push("/dashboard");
-        }
+        // if (result.data.registrationStatus !== "6") {
+        //   props.history.push("/dashboard");
+        // }
         setUserData(result.data.formData);
         createFacOptions(result.data.testCenters);
         setLoading(false);
@@ -83,13 +83,10 @@ function TestCenterForm(props) {
   };
 
   return (
-    <Card>
+    <Card className="lg:w-6/12 mx-auto">
       <CardHeader color="orange" contentPosition="none" size="sm">
         <div className="w-full flex items-center justify-between">
-          <h6 className="text-lg">Choose Test Center</h6>
-          <h6 className="text-sm">
-            Step {props.currentStep} of {props.totalSteps}
-          </h6>
+          <h6 className="text-lg">ADD BANK ACCOUNT</h6>
         </div>
       </CardHeader>
       <CardBody>
@@ -107,7 +104,7 @@ function TestCenterForm(props) {
         )}{" "}
         <form>
           <h6 className="text-purple-500 text-sm mt-3 mb-6 font-light uppercase">
-            CHOOSE A TEST VENUE
+            Provide your bank account information.
           </h6>
           <div className="flex flex-wrap mt-10">
             <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
@@ -141,35 +138,16 @@ function TestCenterForm(props) {
               />
             </div>
             <div className="w-full lg:w-4/12  mb-10 font-dark">
-              <label className="form-check-label">
-                Are you a beneficiary of any other scholarship award schemes?
-              </label>
-              <Radio
-                color="teal"
-                text="Yes"
-                id="PreviouslyBenefited"
-                name="PreviouslyBenefited"
-                defaultChecked={userData?.previouslyBenefited === "Y"}
-                onChange={(e) =>
-                  setUserData({
-                    ...userData,
-                    previouslyBenefited: "Y",
-                  })
-                }
-              />
-              <Radio
-                color="teal"
-                text="No"
-                id="PreviouslyBenefited1"
-                name="PreviouslyBenefited"
-                defaultChecked={userData?.previouslyBenefited === "N"}
-                onChange={(e) =>
-                  setUserData({
-                    ...userData,
-                    previouslyBenefited: "N",
-                  })
-                }
-              />
+              <Button color="orange" onClick={handleSubmit}>
+                {!loading ? (
+                  "Validate"
+                ) : (
+                  <>
+                    Validating...{" "}
+                    <i className="fa fa-spinner fa-2x fa-spin"></i>
+                  </>
+                )}
+              </Button>
             </div>
           </div>
         </form>
@@ -192,20 +170,8 @@ function TestCenterForm(props) {
             Previous
           </Button>
         </div>
-        <div className="absolute bottom-5 right-5 ">
-          <Button color="orange" onClick={handleSubmit}>
-            {!loading ? (
-              "Save and Continue"
-            ) : (
-              <>
-                Processing... <i className="fa fa-spinner fa-2x fa-spin"></i>
-              </>
-            )}
-          </Button>
-        </div>
+        <div className="absolute bottom-5 right-5 "></div>
       </CardFooter>
     </Card>
   );
 }
-
-export default withRouter(connect(null, { PostTestCenter })(TestCenterForm));
