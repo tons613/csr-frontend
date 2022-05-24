@@ -13,6 +13,7 @@ import { connect } from "react-redux";
 import { SubmitForm } from "../../redux/actions/ApplicationActions";
 import Swal from "sweetalert2";
 import { withRouter } from "react-router-dom";
+import { format } from "date-fns";
 
 function MyApplicationInfo(props) {
   const [userData, setUserData] = useState({});
@@ -75,7 +76,7 @@ function MyApplicationInfo(props) {
         },
       })
       .then((result) => {
-        if (result.data.registrationStatus === "2") {
+        if (result.data.registrationStatus === 2) {
           props.history.push("/dashboard/Application");
         }
         setUserData(result.data.userdata);
@@ -91,304 +92,325 @@ function MyApplicationInfo(props) {
         }
       });
   };
-
+  const getStatus = (status) => {
+    switch (status) {
+      case 1:
+        return "COMPLETED";
+      case 2:
+        return "UNCOMPLETED";
+      case 3:
+        return "VERIFIED";
+    }
+  };
   return (
-    <Card>
-      <CardHeader color="orange" contentPosition="none" size="sm">
-        <div className="w-full flex items-center justify-between">
-          <h6 className="text-lg">My Application Information</h6>
-        </div>
-      </CardHeader>
-      <CardBody>
-        <div className="mt-2 ">
-          <Image
-            src={`${api.API_URL}/${passport}`}
-            className="mx-auto"
-            style={{ width: 120, height: 120 }}
-          />
-        </div>
-        <h6 className="text-purple-500 text-sm mt-3 mb-6 font-light uppercase">
-          Contact Information
-        </h6>
-        <div className="flex flex-wrap mt-10">
-          <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
-            <Input
-              type="text"
-              placeholder="Country"
-              outline={true}
-              defaultValue={userData?.country}
-              readOnly
-            />
-          </div>
-          <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
-            <Input
-              type="text"
-              placeholder="Date of birth"
-              outline={true}
-              defaultValue={userData?.dob}
-              readOnly
-            />
-          </div>
-          <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
-            <Input
-              type="text"
-              placeholder="Gender"
-              outline={true}
-              defaultValue={userData?.gender}
-              readOnly
-            />
-          </div>
-        </div>
-        <div className="flex flex-wrap lg:mt-10">
-          <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
-            <Input
-              type="text"
-              placeholder="State of origin"
-              outline={true}
-              defaultValue={userData?.country}
-              readOnly
-            />
-          </div>
-          <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
-            <Input
-              type="text"
-              placeholder="Local Govt Area"
-              outline={true}
-              defaultValue={userData?.country}
-              readOnly
-            />
-          </div>
-          <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
-            <Input
-              type="text"
-              placeholder="Geo Political Zone"
-              defaultValue={userData?.geoPolZone}
-              outline={true}
-              readOnly
-            />
-          </div>
-        </div>
-        <div className="flex flex-wrap lg:mt-10">
-          <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
-            <Input
-              type="text"
-              placeholder="Resident Address"
-              readOnly
-              outline={true}
-              defaultValue={userData?.residentAddress}
-            />
-          </div>
-          <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
-            <Input
-              max="2010-12-31"
-              placeholder="City"
-              defaultValue={userData?.city}
-              outline={true}
-              readOnly
-            />
-          </div>
-          <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
-            <Input
-              max="2010-12-31"
-              placeholder="State of resident"
-              defaultValue={userData?.city}
-              outline={true}
-              readOnly
-            />
-          </div>
-        </div>
-
-        <h6 className="text-purple-500 text-sm my-6 font-light uppercase">
-          EDUCATIONAL INFORMATION
-        </h6>
-        <div className="flex flex-wrap mt-10">
-          <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
-            {/* <Label color="transparent">University</Label> */}
-            <Input
-              max="2010-12-31"
-              placeholder="University"
-              outline={true}
-              defaultValue={userData?.university}
-              readOnly
-            />
-          </div>
-          <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
-            <Input
-              max="2010-12-31"
-              placeholder="Faculty"
-              outline={true}
-              defaultValue={userData?.faculty}
-              readOnly
-            />
-          </div>
-          <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
-            <Input
-              type="text"
-              color="blue"
-              placeholder="Department"
-              outline={true}
-              defaultValue={userData?.department}
-              readOnly
-              required
-            />
-          </div>
-        </div>
-
-        <div className="flex flex-wrap mt-10">
-          <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
-            <Input
-              max="2010-12-31"
-              placeholder="Entry Year"
-              outline={true}
-              defaultValue={userData?.entryYear}
-              readOnly
-            />
-          </div>
-          <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
-            <Input
-              max="2010-12-31"
-              placeholder="Current year of study"
-              outline={true}
-              defaultValue={userData?.currentStudyYear}
-              readOnly
-            />
-          </div>
-          <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
-            <Input
-              max="2010-12-31"
-              placeholder="Graduation year"
-              outline={true}
-              defaultValue={userData?.graduationYear}
-              readOnly
-            />
-          </div>
-        </div>
-        <div className="flex flex-wrap mt-10">
-          <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
-            <Input
-              type="text"
-              placeholder="Matriculation number"
-              outline={true}
-              readOnly
-              defaultValue={userData?.matricNum}
-            />
-          </div>
-          <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
-            <Input
-              max="2010-12-31"
-              placeholder="JAMB/UTME Score"
-              outline={true}
-              defaultValue={userData?.jambScore}
-              readOnly
-            />
-          </div>
-          <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
-            <Input
-              max="2010-12-31"
-              placeholder="Programme type"
-              outline={true}
-              defaultValue={userData?.programmeType}
-              readOnly
-            />
-          </div>
-        </div>
-        <div className="flex flex-wrap mt-10">
-          <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
-            <Input
-              max="2010-12-31"
-              placeholder="CGPA"
-              outline={true}
-              defaultValue={userData?.cgpa}
-              readOnly
-            />
-          </div>
-          <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
-            <Input
-              max="2010-12-31"
-              placeholder="Grade Scale"
-              outline={true}
-              defaultValue={userData?.gradeScale}
-              readOnly
-            />
-          </div>
-          <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
-            <Input
-              type="text"
-              placeholder="Post-UTME Score"
-              outline={true}
-              defaultValue={userData?.postUTMEScore}
-              readOnly
-            />
-          </div>
-        </div>
-
-        <h6 className="text-purple-500 text-sm mt-3 mb-6 font-light uppercase">
-          CHOOSE A TEST VENUE
-        </h6>
-        <div className="flex flex-wrap mt-10">
-          <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
-            <Input
-              type="text"
-              placeholder="First choice center"
-              outline={true}
-              defaultValue={userData?.firstTestCenter}
-              readOnly
-            />
-          </div>
-          <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
-            <Input
-              type="text"
-              placeholder="Second choice center"
-              outline={true}
-              defaultValue={userData?.secondTestCenter}
-              readOnly
-            />
-          </div>
-          <div className="w-full lg:w-4/12  mb-10 font-dark">
-            <label className="form-check-label">
-              Are you a beneficiary of any other scholarship award schemes?
-            </label>
-            <Radio
-              color="primary"
-              text="Yes"
-              id="PreviouslyBenefited"
-              name="PreviouslyBenefited"
-              defaultChecked={userData?.previouslyBenefited === "Y"}
-            />
-            <Radio
-              color="primary"
-              text="No"
-              id="PreviouslyBenefited1"
-              name="PreviouslyBenefited"
-              defaultChecked={userData?.previouslyBenefited === "N"}
-            />
-          </div>
-        </div>
-
-        <h6 className="text-purple-500 text-sm mt-3 mb-6 font-light uppercase">
-          UPLOADED FILES
-        </h6>
-        <div className="flex flex-wrap mt-3">
-          {Object.entries(userfiles).map((fileInfos) => (
-            <Fragment>
-              <div className="w-full  mb-5 font-dark">
-                <span>{fileInfos[1].documentName}</span>
-                <div className="bg-[#8CC1C1] p-1 px-2 rounded w-6/12">
-                  <a
-                    href={`${api.API_URL}/${fileInfos[1].systemFilePath}`}
-                    target="_blank"
-                    className="text-white"
-                  >
-                    View uploaded file
-                  </a>
+    <>
+      {Object.entries(userData).length > 0 ? (
+        <>
+          <Card>
+            <CardHeader color="orange" contentPosition="none" size="sm">
+              <div className="w-full flex items-center justify-between">
+                <h6 className="text-lg">My Application Information</h6>
+              </div>
+            </CardHeader>
+            <CardBody>
+              <div className="mt-2 ">
+                <Image
+                  src={`${api.API_URL}/${passport}`}
+                  className="mx-auto"
+                  style={{ width: 120, height: 120 }}
+                />
+              </div>
+              <div className=" my-10 w-full">
+                <span className="mx-auto font-bold">
+                  Application Status: {getStatus(userData?.registrationStatus)}
+                </span>
+              </div>
+              <h6 className="text-purple-500 text-sm mt-3 mb-6 font-light uppercase">
+                Contact Information
+              </h6>
+              <div className="flex flex-wrap mt-10">
+                <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
+                  <Input
+                    type="text"
+                    placeholder="Country"
+                    outline={true}
+                    defaultValue={userData?.country}
+                    readOnly
+                  />
+                </div>
+                <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
+                  <Input
+                    type="text"
+                    placeholder="Date of birth"
+                    outline={true}
+                    defaultValue={format(
+                      new Date(userData?.dob.toString()),
+                      "dd/MM/yyyy"
+                    )}
+                    readOnly
+                  />
+                </div>
+                <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
+                  <Input
+                    type="text"
+                    placeholder="Gender"
+                    outline={true}
+                    defaultValue={userData?.gender}
+                    readOnly
+                  />
                 </div>
               </div>
-            </Fragment>
-          ))}
-        </div>
+              <div className="flex flex-wrap lg:mt-10">
+                <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
+                  <Input
+                    type="text"
+                    placeholder="State of origin"
+                    outline={true}
+                    defaultValue={userData?.country}
+                    readOnly
+                  />
+                </div>
+                <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
+                  <Input
+                    type="text"
+                    placeholder="Local Govt Area"
+                    outline={true}
+                    defaultValue={userData?.country}
+                    readOnly
+                  />
+                </div>
+                <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
+                  <Input
+                    type="text"
+                    placeholder="Geo Political Zone"
+                    defaultValue={userData?.geoPolZone}
+                    outline={true}
+                    readOnly
+                  />
+                </div>
+              </div>
+              <div className="flex flex-wrap lg:mt-10">
+                <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
+                  <Input
+                    type="text"
+                    placeholder="Resident Address"
+                    readOnly
+                    outline={true}
+                    defaultValue={userData?.residentAddress}
+                  />
+                </div>
+                <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
+                  <Input
+                    max="2010-12-31"
+                    placeholder="City"
+                    defaultValue={userData?.city}
+                    outline={true}
+                    readOnly
+                  />
+                </div>
+                <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
+                  <Input
+                    max="2010-12-31"
+                    placeholder="State of resident"
+                    defaultValue={userData?.city}
+                    outline={true}
+                    readOnly
+                  />
+                </div>
+              </div>
 
-        <div>
-          {/* 
+              <h6 className="text-purple-500 text-sm my-6 font-light uppercase">
+                EDUCATIONAL INFORMATION
+              </h6>
+              <div className="flex flex-wrap mt-10">
+                <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
+                  {/* <Label color="transparent">University</Label> */}
+                  <Input
+                    max="2010-12-31"
+                    placeholder="University"
+                    outline={true}
+                    defaultValue={userData?.university}
+                    readOnly
+                  />
+                </div>
+                <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
+                  <Input
+                    max="2010-12-31"
+                    placeholder="Faculty"
+                    outline={true}
+                    defaultValue={userData?.faculty}
+                    readOnly
+                  />
+                </div>
+                <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
+                  <Input
+                    type="text"
+                    color="blue"
+                    placeholder="Department"
+                    outline={true}
+                    defaultValue={userData?.department}
+                    readOnly
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="flex flex-wrap mt-10">
+                <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
+                  <Input
+                    max="2010-12-31"
+                    placeholder="Entry Year"
+                    outline={true}
+                    defaultValue={userData?.entryYear}
+                    readOnly
+                  />
+                </div>
+                <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
+                  <Input
+                    max="2010-12-31"
+                    placeholder="Current year of study"
+                    outline={true}
+                    defaultValue={userData?.currentStudyYear}
+                    readOnly
+                  />
+                </div>
+                <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
+                  <Input
+                    max="2010-12-31"
+                    placeholder="Graduation year"
+                    outline={true}
+                    defaultValue={userData?.graduationYear}
+                    readOnly
+                  />
+                </div>
+              </div>
+              <div className="flex flex-wrap mt-10">
+                <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
+                  <Input
+                    type="text"
+                    placeholder="Matriculation number"
+                    outline={true}
+                    readOnly
+                    defaultValue={userData?.matricNum}
+                  />
+                </div>
+                <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
+                  <Input
+                    max="2010-12-31"
+                    placeholder="JAMB/UTME Score"
+                    outline={true}
+                    defaultValue={userData?.jambScore}
+                    readOnly
+                  />
+                </div>
+                <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
+                  <Input
+                    max="2010-12-31"
+                    placeholder="Programme type"
+                    outline={true}
+                    defaultValue={userData?.programmeType}
+                    readOnly
+                  />
+                </div>
+              </div>
+              <div className="flex flex-wrap mt-10">
+                <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
+                  <Input
+                    max="2010-12-31"
+                    placeholder="CGPA"
+                    outline={true}
+                    defaultValue={userData?.cgpa}
+                    readOnly
+                  />
+                </div>
+                <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
+                  <Input
+                    max="2010-12-31"
+                    placeholder="Grade Scale"
+                    outline={true}
+                    defaultValue={userData?.gradeScale}
+                    readOnly
+                  />
+                </div>
+                <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
+                  <Input
+                    type="text"
+                    placeholder="Post-UTME Score"
+                    outline={true}
+                    defaultValue={userData?.postUTMEScore}
+                    readOnly
+                  />
+                </div>
+              </div>
+
+              <h6 className="text-purple-500 text-sm mt-3 mb-6 font-light uppercase">
+                CHOOSE A TEST VENUE
+              </h6>
+              <div className="flex flex-wrap mt-10">
+                <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
+                  <Input
+                    type="text"
+                    placeholder="First choice center"
+                    outline={true}
+                    defaultValue={userData?.firstTestCenter}
+                    readOnly
+                  />
+                </div>
+                <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
+                  <Input
+                    type="text"
+                    placeholder="Second choice center"
+                    outline={true}
+                    defaultValue={userData?.secondTestCenter}
+                    readOnly
+                  />
+                </div>
+                <div className="w-full lg:w-4/12  mb-10 font-dark">
+                  <label className="form-check-label">
+                    Are you a beneficiary of any other scholarship award
+                    schemes?
+                  </label>
+                  <Radio
+                    color="primary"
+                    text="Yes"
+                    id="PreviouslyBenefited"
+                    name="PreviouslyBenefited"
+                    defaultChecked={userData?.previouslyBenefited === "Y"}
+                  />
+                  <Radio
+                    color="primary"
+                    text="No"
+                    id="PreviouslyBenefited1"
+                    name="PreviouslyBenefited"
+                    defaultChecked={userData?.previouslyBenefited === "N"}
+                  />
+                </div>
+              </div>
+
+              <h6 className="text-purple-500 text-sm mt-3 mb-6 font-light uppercase">
+                UPLOADED FILES
+              </h6>
+              <div className="flex flex-wrap mt-3">
+                {Object.entries(userfiles).map((fileInfos) => (
+                  <Fragment>
+                    <div className="w-full  mb-5 font-dark">
+                      <span>{fileInfos[1].documentName}</span>
+                      <div className="bg-[#8CC1C1] p-1 px-2 rounded w-6/12">
+                        <a
+                          href={`${api.API_URL}/${fileInfos[1].systemFilePath}`}
+                          target="_blank"
+                          className="text-white"
+                        >
+                          View uploaded file
+                        </a>
+                      </div>
+                    </div>
+                  </Fragment>
+                ))}
+              </div>
+
+              <div>
+                {/* 
           <p>
             <button>Next Step</button>
           </p>
@@ -401,9 +423,12 @@ function MyApplicationInfo(props) {
           <p>
             <button onClick={props.lastStep}>Last Step</button>
           </p> */}
-        </div>
-      </CardBody>
-    </Card>
+              </div>
+            </CardBody>
+          </Card>
+        </>
+      ) : null}
+    </>
   );
 }
 

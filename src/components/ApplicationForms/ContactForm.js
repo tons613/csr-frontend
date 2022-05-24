@@ -14,6 +14,7 @@ import axios from "axios";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { PostContactDetail } from "../../redux/actions/ApplicationActions";
+import { format } from "date-fns";
 
 function ContactForm(props) {
   useEffect(() => {
@@ -35,7 +36,7 @@ function ContactForm(props) {
         },
       })
       .then((result) => {
-        if (result.data.registrationStatus !== "2") {
+        if (result.data.contactData.registrationStatus !== 2) {
           props.history.push("/dashboard");
         }
         setUserData(result.data.contactData);
@@ -126,7 +127,12 @@ function ContactForm(props) {
   };
 
   // alert();
-  // console.log("deded", formatDate(userData?.dob));
+
+  userData?.dob &&
+    console.log(
+      "deded",
+      format(new Date(userData?.dob.toString()), "MM/dd/yyyy")
+    );
   return (
     <Card>
       <CardHeader color="orange" contentPosition="none" size="sm">
@@ -162,6 +168,10 @@ function ContactForm(props) {
                 type="date"
                 id="dob"
                 defaultValue={userData?.dob}
+                // defaultValue={
+                //   userData?.dob &&
+                //   format(new Date(userData?.dob.toString()), "MM/dd/yyyy")
+                // }
                 onChange={handleChange}
               />
             </div>

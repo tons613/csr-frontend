@@ -12,31 +12,46 @@ import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { PostTestCenter } from "../redux/actions/ApplicationActions";
 import { withRouter } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export default function BankAccount(props) {
   const [userData, setUserData] = useState({});
-  const [choice1Options, setChoice1Options] = useState([]);
-  const [choice2Options, setChoice2Options] = useState([]);
-  const [previouslyBenefited, setPreviouslyBenefited] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [errMsg, setErrMsg] = useState([]);
+  const [accountNo, setAccountNo] = useState("");
+  const [bankname, setBankname] = useState("");
+  const [acctname, setAcctname] = useState("");
+  const [bankcode, setBankcode] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [svloading, setSvLoading] = useState(false);
+  const [errMsg, setErrMsg] = useState(null);
+  const [banklist, setBanklist] = useState([]);
+  const [validated, setValidated] = useState(false);
+  const [hasAcct, setHasAcct] = useState(false);
 
   useEffect(() => {
     loadData();
   }, []);
   const loadData = () => {
     axios
-      .get(api.API_URL + "/api/get_CenterChoice", {
+      .get(api.API_URL + "/api/getbankaccout", {
         headers: {
           Authorization: "Bearer " + localStorage.token,
         },
       })
       .then((result) => {
-        // if (result.data.registrationStatus !== "6") {
-        //   props.history.push("/dashboard");
-        // }
-        setUserData(result.data.formData);
-        createFacOptions(result.data.testCenters);
+        if (result.data.registrationStatus !== "6") {
+          props.history.push("/dashboard");
+        }
+        var acct = result.data.acct;
+        if (acct !== null) {
+          console.log("acct", acct);
+          setHasAcct(true);
+          setAcctname(acct.accountName);
+          setAccountNo(acct.accountNumber);
+          setBankname(acct.bankName);
+        } else {
+          setHasAcct(false);
+        }
+
         setLoading(false);
       })
       .catch((error) => {
@@ -45,133 +60,231 @@ export default function BankAccount(props) {
       });
   };
 
-  const createFacOptions = (data) => {
+  const createBankOptions = (data) => {
     let options = [];
     data &&
-      Object.entries(data).map((lg) => {
-        options.push({ value: lg[1].id, label: lg[1].center });
-      });
-    setChoice1Options(options);
-    setChoice2Options(options);
+      data.map((data) => options.push({ value: data.code, label: data.name }));
+    setBanklist(options);
   };
 
-  const handleSubmit = () => {
+  const handleValidate = (e) => {
+    e.preventDefault();
     setLoading(true);
-
-    props
-      .PostTestCenter(userData)
-      .then(() => {
+    var data = { AccountNo: accountNo, BankCode: bankcode };
+    axios
+      .post(`${api.API_URL}/api/validatebank`, {
+        AccountNo: accountNo,
+        BankCode: bankcode,
+      })
+      .then((result) => {
         setLoading(false);
-        props.nextStep();
+        console.log(result.data);
+        setAcctname(result.data.data.account_name);
+        setErrMsg(null);
+        setValidated(true);
       })
       .catch((error) => {
         setLoading(false);
         console.log(error.response);
-        var errmsg = [];
         if (error.response) {
-          for (const [key, value] of Object.entries(error.response.data)) {
-            errmsg.push(value);
-            console.log(value);
-          }
+          setErrMsg(error.response.data.message);
         } else {
-          errmsg.push(
+          setErrMsg(
             "An Error ocurred. Request could not be processed. Please try again later"
           );
         }
-        setErrMsg(errmsg);
       });
   };
+  const handleSave = (e) => {
+    e.preventDefault();
 
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to edit this after submission!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Submit it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setSvLoading(true);
+        axios
+          .post(
+            `${api.API_URL}/api/savebank`,
+            {
+              AccountNumber: accountNo,
+              AccountName: acctname,
+              BankName: bankname,
+            },
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.token,
+              },
+            }
+          )
+          .then((result) => {
+            setSvLoading(false);
+            console.log(result.data);
+            setErrMsg(null);
+            setHasAcct(true);
+          })
+          .catch((error) => {
+            setSvLoading(false);
+            console.log(error.response);
+            if (error.response) {
+              setErrMsg(error.response.data.message);
+            } else {
+              setErrMsg(
+                "An Error ocurred. Request could not be processed. Please try again later"
+              );
+            }
+          });
+      }
+    });
+  };
+
+  useEffect(() => {
+    axios
+      .get("https://api.paystack.co/bank")
+      .then((result) => {
+        // console.log(result.data.data);
+        createBankOptions(result.data.data);
+      })
+      .catch((error) => {});
+  }, []);
   return (
-    <Card className="lg:w-6/12 mx-auto">
+    <Card className="lg:w-8/12 mx-auto">
       <CardHeader color="orange" contentPosition="none" size="sm">
         <div className="w-full flex items-center justify-between">
           <h6 className="text-lg">ADD BANK ACCOUNT</h6>
         </div>
       </CardHeader>
       <CardBody>
-        {errMsg && errMsg.length > 0 && (
+        {errMsg && errMsg !== "" && (
           <div
             className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-8 mx-5"
             role="alert"
           >
-            <span className="block sm:inline">
-              {errMsg.map((err) => (
-                <li className="text-sm">{err}</li>
-              ))}
-            </span>
+            <span className="text-sm block sm:inline">{errMsg}</span>
           </div>
         )}{" "}
-        <form>
-          <h6 className="text-purple-500 text-sm mt-3 mb-6 font-light uppercase">
-            Provide your bank account information.
-          </h6>
-          <div className="flex flex-wrap mt-10">
-            <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
-              <Select
-                options={choice1Options}
-                placeholder="First choice center"
-                value={choice1Options.filter(
-                  (option) => option.value === userData?.firstTestCenter
-                )}
-                onChange={(e) =>
-                  setUserData({
-                    ...userData,
-                    firstTestCenter: e.value,
-                  })
-                }
-              />
+        {!hasAcct ? (
+          <>
+            <h6 className="text-purple-500 text-sm mt-3 mb-6 font-light uppercase">
+              Provide your bank account information.
+            </h6>
+            <div className="flex flex-wrap mt-10">
+              <div className="w-full lg:w-5/12 pr-4 mb-10 font-dark">
+                <Select
+                  options={banklist}
+                  placeholder="Select Bank name"
+                  // value={banklist.filter(
+                  //   (option) => option.value === userData?.firstTestCenter
+                  // )}
+                  onChange={(e) => {
+                    setBankcode(e.value);
+                    setBankname(e.label);
+                  }}
+                  isDisabled={validated}
+                />
+              </div>
+              <div className="w-full lg:w-3/12 pr-4 mb-10 font-dark">
+                <Input
+                  max="2010-12-31"
+                  placeholder="Account number"
+                  outline={true}
+                  type="number"
+                  value={accountNo}
+                  disabled={validated}
+                  onChange={(e) => setAccountNo(e.target.value)}
+                />
+              </div>
+              <div className="w-full lg:w-4/12  mb-10 font-dark ">
+                <Button
+                  color={validated ? "gray" : "orange"}
+                  onClick={handleValidate}
+                  disabled={validated}
+                >
+                  {!loading ? (
+                    "Validate"
+                  ) : (
+                    <>
+                      Validating...{" "}
+                      <i className="fa fa-spinner fa-2x fa-spin"></i>
+                    </>
+                  )}
+                </Button>
+              </div>
             </div>
-            <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
-              <Select
-                options={choice2Options}
-                placeholder="Second choice center"
-                value={choice2Options.filter(
-                  (option) => option.value === userData?.secondTestCenter
-                )}
-                onChange={(e) =>
-                  setUserData({
-                    ...userData,
-                    secondTestCenter: e.value,
-                  })
-                }
-              />
+            {validated && (
+              <div className="flex flex-wrap ">
+                <div className="w-full lg:w-8/12 pr-4 mb-10 font-dark">
+                  <span className="text-green-700 font-bold">{acctname}</span>
+                </div>
+
+                <div className="w-full lg:w-6/12 flex flex-row ">
+                  <Button color="green" size="sm" onClick={handleSave}>
+                    {!svloading ? (
+                      "SAVE"
+                    ) : (
+                      <>
+                        Saving...{" "}
+                        <i className="fa fa-spinner fa-2x fa-spin"></i>
+                      </>
+                    )}
+                  </Button>
+                  <Button
+                    color="orange"
+                    className="ml-2"
+                    size="sm"
+                    onClick={() => setValidated(false)}
+                  >
+                    Change
+                  </Button>
+                </div>
+                <div className="w-full lg:w-3/12  "></div>
+              </div>
+            )}
+          </>
+        ) : (
+          <div>
+            <h6 className="text-purple-500 text-sm mt-3 mb-6 font-light uppercase">
+              Bank account information.
+            </h6>
+            <div className="flex flex-wrap">
+              <div className="w-full lg:w-3/12 pr-4 mb-1 font-dark">
+                Account Name:
+              </div>
+              <div className="w-full lg:w-7/12 pr-4 mb-1 font-bold text-gray-800">
+                {acctname}
+              </div>
             </div>
-            <div className="w-full lg:w-4/12  mb-10 font-dark">
-              <Button color="orange" onClick={handleSubmit}>
-                {!loading ? (
-                  "Validate"
-                ) : (
-                  <>
-                    Validating...{" "}
-                    <i className="fa fa-spinner fa-2x fa-spin"></i>
-                  </>
-                )}
-              </Button>
+            <div className="flex flex-wrap ">
+              <div className="w-full lg:w-3/12 pr-4 mb-1 font-dark">
+                Account Number:
+              </div>
+              <div className="w-full lg:w-3/12 pr-4 mb-1 font-bold text-gray-800">
+                {accountNo}
+              </div>
+            </div>
+            <div className="flex flex-wrap ">
+              <div className="w-full lg:w-3/12 pr-4 mb-1 font-dark">
+                Bank Name:
+              </div>
+              <div className="w-full lg:w-3/12 pr-4 mb-1 font-bold text-gray-800">
+                {bankname}
+              </div>
+            </div>
+            <div className=" mt-20">
+              <span className="text-red-500 text-sm">
+                If need to change your bank details, send an email to
+                support@to.....
+              </span>
             </div>
           </div>
-        </form>
-        <div>
-          {/* 
-          <p>
-            <button onClick={() => props.goToStep(2)}>Step 2</button>
-          </p>
-          <p>
-            <button onClick={props.firstStep}>First Step</button>
-          </p>
-          <p>
-            <button onClick={props.lastStep}>Last Step</button>
-          </p> */}
-        </div>
+        )}
       </CardBody>
-      <CardFooter>
-        <div className="absolute bottom-5 left-5 ">
-          <Button color="gray" onClick={props.previousStep}>
-            Previous
-          </Button>
-        </div>
-        <div className="absolute bottom-5 right-5 "></div>
-      </CardFooter>
     </Card>
   );
 }

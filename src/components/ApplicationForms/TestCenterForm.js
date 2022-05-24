@@ -32,7 +32,7 @@ function TestCenterForm(props) {
         },
       })
       .then((result) => {
-        if (result.data.registrationStatus !== "2") {
+        if (result.data.formData.registrationStatus !== 2) {
           props.history.push("/dashboard");
         }
         setUserData(result.data.formData);
