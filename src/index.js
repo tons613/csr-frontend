@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import store from "redux/store";
 import { Provider } from "react-redux";
 import setAuthorizationToken from "utils/TokenInterceptor";
-import "@fortawesome/fontawesome-free/css/all.min.css";
+import "@fortawesome/fontawesome-free/css/all.css";
 
 setAuthorizationToken();
 
