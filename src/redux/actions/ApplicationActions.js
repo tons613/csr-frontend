@@ -14,7 +14,14 @@ export const PostContactDetail = (data) => {
           resolve(response);
         })
         .catch((error) => {
-          reject(error);
+          var err;
+          if (error.response) {
+            err = error.response.data;
+          } else {
+            err =
+              "An error has occured. Please check your network connection and try again";
+          }
+          reject(err);
         });
     });
 

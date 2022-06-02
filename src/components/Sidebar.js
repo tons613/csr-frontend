@@ -9,7 +9,7 @@ import { connect } from "react-redux";
 
 function Sidebar(props) {
   const { currentUser } = props.auth;
-  console.log(currentUser.registrationStatus);
+  // console.log(currentUser.registrationStatus);
   const [showSidebar, setShowSidebar] = useState("-left-64");
   return (
     <>
@@ -31,17 +31,17 @@ function Sidebar(props) {
             <hr className="my-4 min-w-full" />
 
             <ul className="flex-col min-w-full flex list-none">
-              {/*<li className="rounded-lg mb-4">*/}
-              {/*    <NavLink*/}
-              {/*        to="/"*/}
-              {/*        exact*/}
-              {/*        className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"*/}
-              {/*        activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"*/}
-              {/*    >*/}
-              {/*        <Icon name="dashboard" size="2xl" />*/}
-              {/*        Dashboard*/}
-              {/*    </NavLink>*/}
-              {/*</li>*/}
+              <li className="rounded-lg mb-2">
+                <NavLink
+                  to="/dashboard"
+                  exact
+                  className="flex items-center gap-4 text-sm text-white font-light px-4 py-3 rounded-lg"
+                  activeClassName="bg-gradient-to-tr from-orange-500 to-deep-orange-700 text-white shadow-md"
+                >
+                  <Icon name="dashboard" size="2xl" />
+                  Dashboard
+                </NavLink>
+              </li>
               <li className="rounded-lg mb-2">
                 <NavLink
                   to="/dashboard/Application"
@@ -69,7 +69,7 @@ function Sidebar(props) {
               {currentUser.registrationStatus === 6 && (
                 <li className="rounded-lg mb-2 text-gray-700">
                   <NavLink
-                    to="/dashboard/examSlip"
+                    to="/dashboard/bank-account"
                     className="flex items-center gap-4 text-sm text-white font-light px-4 py-3 rounded-lg"
                     activeClassName="bg-gradient-to-tr from-orange-500 to-deep-orange-700 text-white shadow-md"
                   >
@@ -78,7 +78,7 @@ function Sidebar(props) {
                   </NavLink>
                 </li>
               )}
-              <li className="rounded-lg mb-2 text-gray-700">
+              {/* <li className="rounded-lg mb-2 text-gray-700">
                 <NavLink
                   to="/auth/login"
                   className="flex items-center gap-4 text-sm text-white font-light px-4 py-3 rounded-lg"
@@ -87,7 +87,7 @@ function Sidebar(props) {
                   <Icon name="fingerprint" size="2xl" />
                   Change Password
                 </NavLink>
-              </li>
+              </li> */}
               {/*<li className="rounded-lg mb-2 text-gray-700">*/}
               {/*    <NavLink*/}
               {/*        to="/login"*/}

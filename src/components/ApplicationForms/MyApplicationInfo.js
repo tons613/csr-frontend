@@ -99,9 +99,16 @@ function MyApplicationInfo(props) {
       case 2:
         return "UNCOMPLETED";
       case 3:
-        return "VERIFIED";
+        return "VALIDATED";
+      case 4:
+        return "APPLICATION REJECTED";
+      case 5:
+        return "AWARDED PENDING ACCEPTANCE";
+      case 6:
+        return "SCHOLARSHIP AWARDED";
     }
   };
+  console.log(userData);
   return (
     <>
       {Object.entries(userData).length > 0 ? (
@@ -121,9 +128,12 @@ function MyApplicationInfo(props) {
                 />
               </div>
               <div className=" my-10 w-full">
-                <span className="mx-auto font-bold">
+                {/* <div className="mx-auto font-bold text-gray-500">
                   Application Status: {getStatus(userData?.registrationStatus)}
-                </span>
+                </div> */}
+                <div className="mx-auto font-bold text-gray-700">
+                  Application Number: {userData?.applicationNo}
+                </div>
               </div>
               <h6 className="text-purple-500 text-sm mt-3 mb-6 font-light uppercase">
                 Contact Information
@@ -166,7 +176,7 @@ function MyApplicationInfo(props) {
                     type="text"
                     placeholder="State of origin"
                     outline={true}
-                    defaultValue={userData?.country}
+                    defaultValue={userData?.stateOrigin}
                     readOnly
                   />
                 </div>
@@ -175,7 +185,7 @@ function MyApplicationInfo(props) {
                     type="text"
                     placeholder="Local Govt Area"
                     outline={true}
-                    defaultValue={userData?.country}
+                    defaultValue={userData?.lga}
                     readOnly
                   />
                 </div>
@@ -212,7 +222,7 @@ function MyApplicationInfo(props) {
                   <Input
                     max="2010-12-31"
                     placeholder="State of resident"
-                    defaultValue={userData?.city}
+                    defaultValue={userData?.stateResidence}
                     outline={true}
                     readOnly
                   />
@@ -391,22 +401,24 @@ function MyApplicationInfo(props) {
                 UPLOADED FILES
               </h6>
               <div className="flex flex-wrap mt-3">
-                {Object.entries(userfiles).map((fileInfos) => (
-                  <Fragment>
-                    <div className="w-full  mb-5 font-dark">
-                      <span>{fileInfos[1].documentName}</span>
-                      <div className="bg-[#8CC1C1] p-1 px-2 rounded w-6/12">
-                        <a
-                          href={`${api.API_URL}/${fileInfos[1].systemFilePath}`}
-                          target="_blank"
-                          className="text-white"
-                        >
-                          View uploaded file
-                        </a>
+                {Object.entries(userfiles)
+                  .filter((fil) => fil[1].documentName !== "Passport")
+                  .map((fileInfos) => (
+                    <Fragment>
+                      <div className="w-full  mb-5 font-dark">
+                        <span>{fileInfos[1].documentName}</span>
+                        <div className="bg-[#8CC1C1] p-1 px-2 rounded lg:w-6/12">
+                          <a
+                            href={`${api.API_URL}/${fileInfos[1].systemFilePath}`}
+                            target="_blank"
+                            className="text-white"
+                          >
+                            View uploaded file
+                          </a>
+                        </div>
                       </div>
-                    </div>
-                  </Fragment>
-                ))}
+                    </Fragment>
+                  ))}
               </div>
 
               <div>

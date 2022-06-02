@@ -44,7 +44,7 @@ var routes = [
     path: "/profile",
     name: "Account Profile",
     icon: "ni ni-single-02",
-    component: Profile,
+    component: Settings,
     layout: "/dashboard",
   },
   {

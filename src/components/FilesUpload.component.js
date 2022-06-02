@@ -28,12 +28,14 @@ const UploadFiles = (props) => {
   const [message, setMessage] = useState("");
   const [isError, setIsError] = useState(false);
   const [fileInfos, setFileInfos] = useState([]);
-  const { title, docType, getPassport } = props;
-  const [show, setShow] = useState(true);
+  const [isRequired, setIsRequired] = useState(null);
+  const { title, docType, getPassport, fileUploaded, checkRequired } = props;
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     UploadService.getFiles(docType).then((response) => {
       setFileInfos(response.data);
+      setLoaded(true);
     });
   }, []);
 
@@ -44,7 +46,12 @@ const UploadFiles = (props) => {
   const upload = () => {
     let currentFile = selectedFiles[0];
     setProgress(0);
+
+    if (getPassport && !ValidateImage(currentFile)) return false;
+    if (!getPassport && !ValidateDoc(currentFile)) return false;
+
     setCurrentFile(currentFile);
+    setLoaded(false);
     UploadService.upload(currentFile, docType, (event) => {
       setProgress(Math.round((100 * event.loaded) / event.total));
     })
@@ -59,12 +66,14 @@ const UploadFiles = (props) => {
       })
       .then((files) => {
         setFileInfos(files.data);
+        setLoaded(true);
       })
       .catch(() => {
         setProgress(0);
         setMessage("Could not upload the file!");
         setCurrentFile(undefined);
         setIsError(true);
+        setLoaded(true);
       });
     setSelectedFiles(undefined);
   };
@@ -80,6 +89,7 @@ const UploadFiles = (props) => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
+        setLoaded(false);
         UploadService.deleteFile(docId).then(() => {
           if (getPassport) {
             getPassport();
@@ -87,13 +97,85 @@ const UploadFiles = (props) => {
           setCurrentFile(undefined);
           setFileInfos([]);
           Swal.fire("Deleted!", "Your file has been deleted.", "success");
+          setLoaded(true);
         });
       }
     });
   };
+
+  useEffect(() => {
+    if (checkRequired) checkRequired.current = checkUploaded;
+  }, [loaded]);
+
+  function checkUploaded() {
+    if (loaded) {
+      if (Object.keys(fileInfos).length < 1) {
+        setIsRequired(title + " is required");
+        fileUploaded(0);
+      } else {
+        fileUploaded(1);
+      }
+    }
+  }
+
+  function ValidateImage(files) {
+    if (files) {
+      if (/\.(jpe?g|png)$/i.test(files.name) === false) {
+        //FILE TYPE MUST BE IMAGE
+        alert("Only valid image files are allowed (jpg,png,jpeg)");
+        return false;
+      }
+
+      if (files.length > 0) {
+        // RUN A LOOP TO CHECK EACH SELECTED FILE.
+        for (var i = 0; i <= files.length - 1; i++) {
+          var fileSize = files.item(i).size; // THE SIZE OF THE FILE.
+        }
+      }
+
+      if (fileSize / 1024 > 1000 || fileSize / 1024 < 0) {
+        alert("Image size should not be greater than 1Mb");
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      alert("No File Selected");
+      return false;
+    }
+  }
+
+  function ValidateDoc(files) {
+    if (files) {
+      if (/\.(jpe?g|png|pdf)$/i.test(files.name) === false) {
+        //FILE TYPE CAN BE IMAGE OR PDF
+        alert("Only valid image  & Pdf files are allowed (jpg,png,jpeg,pdf)");
+        return false;
+      }
+
+      if (files.length > 0) {
+        // RUN A LOOP TO CHECK EACH SELECTED FILE.
+        for (var i = 0; i <= files.length - 1; i++) {
+          var fileSize = files.item(i).size; // THE SIZE OF THE FILE.
+        }
+      }
+
+      if (fileSize / 1024 > 1000 || fileSize / 1024 < 0) {
+        alert("Image size should not be greater than 1Mb");
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      alert("No File Selected");
+      return false;
+    }
+  }
+
   return (
     <div className="lg:w-6/12 w-full">
-      <Typography variant="caption">{title}</Typography>
+      <Typography variant="caption">{title}</Typography>{" "}
+      {checkRequired && <span className="text-red-500">*</span>}
       {currentFile && (
         <Box className="mb25" display="flex" alignItems="center">
           <Box width="100%" mr={1}>
@@ -174,6 +256,7 @@ const UploadFiles = (props) => {
           >
             Upload
           </Button>
+          <span className="text-xs text-red-500">{isRequired}</span>
         </div>
       )}
       <div className="file-name">

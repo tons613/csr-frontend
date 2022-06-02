@@ -8,12 +8,15 @@ import { CardFooter, Image } from "@material-tailwind/react";
 import { Fragment, useEffect, useState } from "react";
 import axios from "axios";
 import api from "../../utils/config";
-import { Radio } from "@material-ui/core";
+// import { Radio } from "@material-ui/core";
+import Radio from "@material-tailwind/react/radio";
 import { connect } from "react-redux";
 import { SubmitForm } from "../../redux/actions/ApplicationActions";
 import Swal from "sweetalert2";
 import { withRouter } from "react-router-dom";
 import { format } from "date-fns";
+import store from "redux/store";
+import { setCurrentUser } from "redux/actions/authActions";
 
 function FormSummary(props) {
   const [userData, setUserData] = useState({});
@@ -41,9 +44,12 @@ function FormSummary(props) {
             Swal.fire(
               "Submitted!",
               "Your application has been submitted. Application Number is " +
-                res.data.appnum,
+                res.data.applicationNo,
               "success"
-            ).then(() => props.history.push("/dashboard"));
+            ).then(() => {
+              store.dispatch(setCurrentUser(res.data));
+              props.history.push("/dashboard");
+            });
           })
           .catch((error) => {
             setLoading(false);
@@ -93,7 +99,6 @@ function FormSummary(props) {
       });
   };
 
-  console.log();
   return (
     <>
       {Object.entries(userData).length > 0 ? (
@@ -156,7 +161,7 @@ function FormSummary(props) {
                     type="text"
                     placeholder="State of origin"
                     outline={true}
-                    defaultValue={userData?.country}
+                    defaultValue={userData?.stateOrigin}
                     readOnly
                   />
                 </div>
@@ -165,7 +170,7 @@ function FormSummary(props) {
                     type="text"
                     placeholder="Local Govt Area"
                     outline={true}
-                    defaultValue={userData?.country}
+                    defaultValue={userData?.lga}
                     readOnly
                   />
                 </div>
@@ -203,7 +208,7 @@ function FormSummary(props) {
                   <Input
                     max="2010-12-31"
                     placeholder="State of resident"
-                    defaultValue={userData?.city}
+                    defaultValue={userData?.stateResidence}
                     outline={true}
                     readOnly
                   />
@@ -361,20 +366,26 @@ function FormSummary(props) {
                     Are you a beneficiary of any other scholarship award
                     schemes?
                   </label>
-                  <Radio
-                    color="primary"
-                    text="Yes"
-                    id="PreviouslyBenefited"
-                    name="PreviouslyBenefited"
-                    defaultChecked={userData?.previouslyBenefited === "Y"}
-                  />
-                  <Radio
-                    color="primary"
-                    text="No"
-                    id="PreviouslyBenefited1"
-                    name="PreviouslyBenefited"
-                    defaultChecked={userData?.previouslyBenefited === "N"}
-                  />
+                  {userData?.previouslyBenefited && (
+                    <>
+                      <Radio
+                        color="teal"
+                        text="Yes"
+                        disabled
+                        id="PreviouslyBenefited"
+                        name="PreviouslyBenefited"
+                        defaultChecked={userData?.previouslyBenefited === "Y"}
+                      />
+                      <Radio
+                        disabled
+                        color="teal"
+                        text="No"
+                        id="PreviouslyBenefited1"
+                        name="PreviouslyBenefited"
+                        defaultChecked={userData?.previouslyBenefited === "N"}
+                      />
+                    </>
+                  )}
                 </div>
               </div>
 
@@ -382,22 +393,24 @@ function FormSummary(props) {
                 UPLOADED FILES
               </h6>
               <div className="flex flex-wrap mt-3">
-                {Object.entries(userfiles).map((fileInfos) => (
-                  <Fragment>
-                    <div className="w-full  mb-5 font-dark">
-                      <span>{fileInfos[1].documentName}</span>
-                      <div className="bg-[#8CC1C1] p-1 px-2 rounded w-6/12">
-                        <a
-                          href={`${api.API_URL}/${fileInfos[1].systemFilePath}`}
-                          target="_blank"
-                          className="text-white"
-                        >
-                          View uploaded file
-                        </a>
+                {Object.entries(userfiles)
+                  .filter((fil) => fil[1].documentName !== "Passport")
+                  .map((fileInfos) => (
+                    <Fragment>
+                      <div className="w-full  mb-5 font-dark">
+                        <span>{fileInfos[1].documentName}</span>
+                        <div className="bg-[#8CC1C1] p-1 px-2 rounded w-6/12">
+                          <a
+                            href={`${api.API_URL}/${fileInfos[1].systemFilePath}`}
+                            target="_blank"
+                            className="text-white"
+                          >
+                            View uploaded file
+                          </a>
+                        </div>
                       </div>
-                    </div>
-                  </Fragment>
-                ))}
+                    </Fragment>
+                  ))}
               </div>
 
               <div>

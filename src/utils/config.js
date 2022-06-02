@@ -3,7 +3,7 @@ const GlobalVar = Object.freeze({
   API_URL:
     !process.env.NODE_ENV || process.env.NODE_ENV === "development"
       ? "https://localhost:44354"
-      : "http://api.totalenergiescsr.ng",
+      : "http://api.imdappsoft.com",
 });
 
 export default GlobalVar;

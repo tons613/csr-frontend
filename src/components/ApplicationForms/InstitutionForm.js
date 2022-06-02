@@ -4,8 +4,8 @@ import CardHeader from "@material-tailwind/react/CardHeader";
 import CardBody from "@material-tailwind/react/CardBody";
 import Button from "@material-tailwind/react/Button";
 import Input from "@material-tailwind/react/Input";
-import Textarea from "@material-tailwind/react/Textarea";
-import { CardFooter, Label } from "@material-tailwind/react";
+import { FormLabel as Label } from "@material-ui/core";
+import { CardFooter } from "@material-tailwind/react";
 import Select from "react-select";
 import axios from "axios";
 import api from "../../utils/config";
@@ -21,6 +21,10 @@ function InstitutionForm(props) {
   const [gradYearOptions, setGradYearOptions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errMsg, setErrMsg] = useState([]);
+  const [uniErr, setUniErr] = useState(null);
+  const [facErr, setFacErr] = useState(null);
+  const [entryYrErr, setEntryYrErr] = useState(null);
+  const [gradYrErr, setGradYrErr] = useState(null);
 
   const loadData = () => {
     axios
@@ -55,6 +59,23 @@ function InstitutionForm(props) {
   }, []);
 
   const handleSubmit = () => {
+    const { university, faculty, entryYear, graduationYear } = userData;
+    if (university === 0) setUniErr("University is required");
+    else setUniErr(null);
+    if (faculty === 0) setFacErr("faculty is required");
+    else setFacErr(null);
+    if (entryYear === 0) setEntryYrErr("Entry year is required");
+    else setEntryYrErr(null);
+    if (graduationYear === 0) setGradYrErr("Grdaution year is required");
+    else setGradYrErr(null);
+    if (
+      university === 0 ||
+      faculty === 0 ||
+      entryYear === 0 ||
+      graduationYear === 0
+    )
+      return;
+
     setLoading(true);
 
     props
@@ -146,48 +167,65 @@ function InstitutionForm(props) {
             </span>
           </div>
         )}
+
         <form>
           <h6 className="text-purple-500 text-sm mt-3 mb-6 font-light uppercase">
             Educational Information
           </h6>
           <div className="flex flex-wrap mt-10">
             <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
-              {/* <Label color="transparent">University</Label> */}
+              <div className="flex flex-row">
+                <Label>University</Label>
+                <span className="text-red-500">*</span>
+              </div>
               <Select
+                className={uniErr ? "border border-red-500 rounded" : ""}
                 options={uniOptions}
                 placeholder="University"
                 value={uniOptions.filter(
                   (option) => option.value === userData?.university
                 )}
-                onChange={(e) =>
+                onChange={(e) => {
                   setUserData({
                     ...userData,
                     university: e.value,
-                  })
-                }
+                  });
+                  setUniErr(null);
+                }}
               />
+              <span className="text-xs text-red-500">{uniErr}</span>
             </div>
             <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
+              <div className="flex flex-row">
+                <Label>Faculty</Label>
+                <span className="text-red-500">*</span>
+              </div>
               <Select
-                isRrequired
+                className={facErr ? "border border-red-500 rounded" : ""}
                 options={facOptions}
                 placeholder="Faculty"
                 value={facOptions.filter(
                   (option) => option.value === userData?.faculty
                 )}
-                onChange={(e) =>
+                onChange={(e) => {
                   setUserData({
                     ...userData,
                     faculty: e.value,
-                  })
-                }
+                  });
+                  setFacErr(null);
+                }}
               />
+              <span className="text-xs text-red-500">{facErr}</span>
             </div>
             <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
+              <div className="flex flex-row">
+                <Label>Department</Label>
+                <span className="text-red-500">*</span>
+              </div>
               <Input
                 type="text"
-                color="blue"
-                placeholder="Department"
+                // color="blue"
+                // placeholder="Department"
                 outline={true}
                 onChange={handleChange}
                 defaultValue={userData?.department}
@@ -196,23 +234,34 @@ function InstitutionForm(props) {
               />
             </div>
           </div>
-          <div className="flex flex-wrap mt-10">
+          <div className="flex flex-wrap mt-5">
             <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
+              <div className="flex flex-row">
+                <Label>Entry Year</Label>
+                <span className="text-red-500">*</span>
+              </div>
               <Select
+                className={entryYrErr ? "border border-red-500 rounded" : ""}
                 options={entryYearOptions}
-                placeholder="Entry Year"
+                // placeholder="Entry Year"
                 value={entryYearOptions.filter(
                   (option) => option.value === userData?.entryYear
                 )}
-                onChange={(e) =>
+                onChange={(e) => {
                   setUserData({
                     ...userData,
                     entryYear: e.value,
-                  })
-                }
+                  });
+                  setEntryYrErr(null);
+                }}
               />
+              <span className="text-xs text-red-500">{entryYrErr}</span>
             </div>
             <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
+              <div className="flex flex-row">
+                <Label>Current year of study</Label>
+                <span className="text-red-500">*</span>
+              </div>
               <Select
                 options={[
                   { value: "100L", label: "100 Level" },
@@ -234,27 +283,38 @@ function InstitutionForm(props) {
               />
             </div>
             <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
+              <div className="flex flex-row">
+                <Label>Graduation year</Label>
+                <span className="text-red-500">*</span>
+              </div>
               <Select
+                className={gradYrErr ? "border border-red-500 rounded" : ""}
                 options={gradYearOptions}
                 placeholder="Graduation year"
                 value={gradYearOptions.filter(
                   (option) => option.value === userData?.graduationYear
                 )}
-                onChange={(e) =>
+                onChange={(e) => {
                   setUserData({
                     ...userData,
                     graduationYear: e.value,
-                  })
-                }
+                  });
+                  setGradYrErr(null);
+                }}
               />
+              <span className="text-xs text-red-500">{gradYrErr}</span>
             </div>
           </div>
-          <div className="flex flex-wrap mt-10">
+          <div className="flex flex-wrap mt-5">
             <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
+              <div className="flex flex-row">
+                <Label>Matriculation number</Label>
+                <span className="text-red-500">*</span>
+              </div>
               <Input
                 type="text"
-                color="purple"
-                placeholder="Matriculation number"
+                // color="purple"
+                // placeholder="Matriculation number"
                 outline={true}
                 onChange={handleChange}
                 id="matricNum"
@@ -262,6 +322,10 @@ function InstitutionForm(props) {
               />
             </div>
             <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
+              <div className="flex flex-row">
+                <Label>Programme type</Label>
+                <span className="text-red-500">*</span>
+              </div>
               <Select
                 options={[
                   { value: "Fulltime", label: "Fulltime" },
@@ -283,6 +347,10 @@ function InstitutionForm(props) {
               />
             </div>
             <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
+              <div className="flex flex-row">
+                <Label>Grade scale</Label>
+                <span className="text-red-500">*</span>
+              </div>
               <Select
                 options={[
                   { value: "4-Point", label: "4-Point Scale" },
@@ -301,12 +369,13 @@ function InstitutionForm(props) {
               />
             </div>
           </div>
-          <div className="flex flex-wrap mt-10">
+          <div className="flex flex-wrap mt-5">
             <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
+              <Label>CGPA</Label>
               <Input
                 type="text"
-                color="purple"
-                placeholder="CGPA"
+                // color="purple"
+                // placeholder="CGPA"
                 outline={true}
                 onChange={handleChange}
                 defaultValue={userData?.cgpa}
@@ -314,10 +383,11 @@ function InstitutionForm(props) {
               />
             </div>
             <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
+              <Label>JAMB/UTME Score</Label>
               <Input
                 max="2010-12-31"
-                color="purple"
-                placeholder="JAMB/UTME Score"
+                // color="purple"
+                // placeholder="JAMB/UTME Score"
                 outline={true}
                 onChange={handleChange}
                 defaultValue={userData?.jambScore}
@@ -325,10 +395,11 @@ function InstitutionForm(props) {
               />
             </div>
             <div className="w-full lg:w-4/12 pr-4 mb-10 font-dark">
+              <Label>Post-UTME Score</Label>
               <Input
                 type="text"
-                color="purple"
-                placeholder="Post-UTME Score"
+                // color="purple"
+                // placeholder="Post-UTME Score"
                 outline={true}
                 onChange={handleChange}
                 defaultValue={userData?.postUTMEScore}
@@ -337,7 +408,6 @@ function InstitutionForm(props) {
             </div>
           </div>
         </form>
-
         {/* <div>
           <p>Is Active: {props.isActive}</p>
           <p>

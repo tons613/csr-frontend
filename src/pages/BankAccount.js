@@ -38,7 +38,7 @@ export default function BankAccount(props) {
         },
       })
       .then((result) => {
-        if (result.data.registrationStatus !== "6") {
+        if (result.data.registrationStatus !== 6) {
           props.history.push("/dashboard");
         }
         var acct = result.data.acct;
@@ -154,137 +154,146 @@ export default function BankAccount(props) {
       .catch((error) => {});
   }, []);
   return (
-    <Card className="lg:w-8/12 mx-auto">
-      <CardHeader color="orange" contentPosition="none" size="sm">
-        <div className="w-full flex items-center justify-between">
-          <h6 className="text-lg">ADD BANK ACCOUNT</h6>
-        </div>
-      </CardHeader>
-      <CardBody>
-        {errMsg && errMsg !== "" && (
-          <div
-            className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-8 mx-5"
-            role="alert"
-          >
-            <span className="text-sm block sm:inline">{errMsg}</span>
-          </div>
-        )}{" "}
-        {!hasAcct ? (
-          <>
-            <h6 className="text-purple-500 text-sm mt-3 mb-6 font-light uppercase">
-              Provide your bank account information.
-            </h6>
-            <div className="flex flex-wrap mt-10">
-              <div className="w-full lg:w-5/12 pr-4 mb-10 font-dark">
-                <Select
-                  options={banklist}
-                  placeholder="Select Bank name"
-                  // value={banklist.filter(
-                  //   (option) => option.value === userData?.firstTestCenter
-                  // )}
-                  onChange={(e) => {
-                    setBankcode(e.value);
-                    setBankname(e.label);
-                  }}
-                  isDisabled={validated}
-                />
+    <div className="h-auto lg:w-9/12 mx-auto " style={{ minHeight: "807px" }}>
+      <div className="container mx-auto max-w-full">
+        <div className="lg:w-10/12 mx-auto">
+          <div className="xl:col-start-2 xl:col-end-5 lg:px-4 mb-16"></div>
+          <Card>
+            <CardHeader color="orange" contentPosition="none" size="sm">
+              <div className="w-full flex items-center justify-between">
+                <h6 className="text-lg">ADD BANK ACCOUNT</h6>
               </div>
-              <div className="w-full lg:w-3/12 pr-4 mb-10 font-dark">
-                <Input
-                  max="2010-12-31"
-                  placeholder="Account number"
-                  outline={true}
-                  type="number"
-                  value={accountNo}
-                  disabled={validated}
-                  onChange={(e) => setAccountNo(e.target.value)}
-                />
-              </div>
-              <div className="w-full lg:w-4/12  mb-10 font-dark ">
-                <Button
-                  color={validated ? "gray" : "orange"}
-                  onClick={handleValidate}
-                  disabled={validated}
+            </CardHeader>
+            <CardBody>
+              {errMsg && errMsg !== "" && (
+                <div
+                  className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-8 mx-5"
+                  role="alert"
                 >
-                  {!loading ? (
-                    "Validate"
-                  ) : (
-                    <>
-                      Validating...{" "}
-                      <i className="fa fa-spinner fa-2x fa-spin"></i>
-                    </>
-                  )}
-                </Button>
-              </div>
-            </div>
-            {validated && (
-              <div className="flex flex-wrap ">
-                <div className="w-full lg:w-8/12 pr-4 mb-10 font-dark">
-                  <span className="text-green-700 font-bold">{acctname}</span>
+                  <span className="text-sm block sm:inline">{errMsg}</span>
                 </div>
+              )}{" "}
+              {!hasAcct ? (
+                <>
+                  <h6 className="text-purple-500 text-sm mt-3 mb-6 font-light uppercase">
+                    Provide your bank account information.
+                  </h6>
+                  <div className="flex flex-wrap mt-10">
+                    <div className="w-full lg:w-5/12 pr-4 mb-10 font-dark">
+                      <Select
+                        options={banklist}
+                        placeholder="Select Bank name"
+                        // value={banklist.filter(
+                        //   (option) => option.value === userData?.firstTestCenter
+                        // )}
+                        onChange={(e) => {
+                          setBankcode(e.value);
+                          setBankname(e.label);
+                        }}
+                        isDisabled={validated}
+                      />
+                    </div>
+                    <div className="w-full lg:w-3/12 pr-4 mb-10 font-dark">
+                      <Input
+                        max="2010-12-31"
+                        placeholder="Account number"
+                        outline={true}
+                        type="number"
+                        value={accountNo}
+                        disabled={validated}
+                        onChange={(e) => setAccountNo(e.target.value)}
+                      />
+                    </div>
+                    <div className="w-full lg:w-4/12  mb-10 font-dark ">
+                      <Button
+                        color={validated ? "gray" : "orange"}
+                        onClick={handleValidate}
+                        disabled={validated}
+                      >
+                        {!loading ? (
+                          "Validate"
+                        ) : (
+                          <>
+                            Validating...{" "}
+                            <i className="fa fa-spinner fa-2x fa-spin"></i>
+                          </>
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+                  {validated && (
+                    <div className="flex flex-wrap ">
+                      <div className="w-full lg:w-8/12 pr-4 mb-10 font-dark">
+                        <span className="text-green-700 font-bold">
+                          {acctname}
+                        </span>
+                      </div>
 
-                <div className="w-full lg:w-6/12 flex flex-row ">
-                  <Button color="green" size="sm" onClick={handleSave}>
-                    {!svloading ? (
-                      "SAVE"
-                    ) : (
-                      <>
-                        Saving...{" "}
-                        <i className="fa fa-spinner fa-2x fa-spin"></i>
-                      </>
-                    )}
-                  </Button>
-                  <Button
-                    color="orange"
-                    className="ml-2"
-                    size="sm"
-                    onClick={() => setValidated(false)}
-                  >
-                    Change
-                  </Button>
+                      <div className="w-full lg:w-6/12 flex flex-row ">
+                        <Button color="green" size="sm" onClick={handleSave}>
+                          {!svloading ? (
+                            "SAVE"
+                          ) : (
+                            <>
+                              Saving...{" "}
+                              <i className="fa fa-spinner fa-2x fa-spin"></i>
+                            </>
+                          )}
+                        </Button>
+                        <Button
+                          color="orange"
+                          className="ml-2"
+                          size="sm"
+                          onClick={() => setValidated(false)}
+                        >
+                          Change
+                        </Button>
+                      </div>
+                      <div className="w-full lg:w-3/12  "></div>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <div>
+                  <h6 className="text-purple-500 text-sm mt-3 mb-6 font-light uppercase">
+                    Bank account information.
+                  </h6>
+                  <div className="flex flex-wrap">
+                    <div className="w-full lg:w-3/12 pr-4 mb-1 font-dark">
+                      Account Name:
+                    </div>
+                    <div className="w-full lg:w-7/12 pr-4 mb-1 font-bold text-gray-800">
+                      {acctname}
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap ">
+                    <div className="w-full lg:w-3/12 pr-4 mb-1 font-dark">
+                      Account Number:
+                    </div>
+                    <div className="w-full lg:w-3/12 pr-4 mb-1 font-bold text-gray-800">
+                      {accountNo}
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap ">
+                    <div className="w-full lg:w-3/12 pr-4 mb-1 font-dark">
+                      Bank Name:
+                    </div>
+                    <div className="w-full lg:w-3/12 pr-4 mb-1 font-bold text-gray-800">
+                      {bankname}
+                    </div>
+                  </div>
+                  <div className=" mt-20">
+                    <span className="text-red-500 text-sm">
+                      If need to change your bank details, send an email to
+                      support@to.....
+                    </span>
+                  </div>
                 </div>
-                <div className="w-full lg:w-3/12  "></div>
-              </div>
-            )}
-          </>
-        ) : (
-          <div>
-            <h6 className="text-purple-500 text-sm mt-3 mb-6 font-light uppercase">
-              Bank account information.
-            </h6>
-            <div className="flex flex-wrap">
-              <div className="w-full lg:w-3/12 pr-4 mb-1 font-dark">
-                Account Name:
-              </div>
-              <div className="w-full lg:w-7/12 pr-4 mb-1 font-bold text-gray-800">
-                {acctname}
-              </div>
-            </div>
-            <div className="flex flex-wrap ">
-              <div className="w-full lg:w-3/12 pr-4 mb-1 font-dark">
-                Account Number:
-              </div>
-              <div className="w-full lg:w-3/12 pr-4 mb-1 font-bold text-gray-800">
-                {accountNo}
-              </div>
-            </div>
-            <div className="flex flex-wrap ">
-              <div className="w-full lg:w-3/12 pr-4 mb-1 font-dark">
-                Bank Name:
-              </div>
-              <div className="w-full lg:w-3/12 pr-4 mb-1 font-bold text-gray-800">
-                {bankname}
-              </div>
-            </div>
-            <div className=" mt-20">
-              <span className="text-red-500 text-sm">
-                If need to change your bank details, send an email to
-                support@to.....
-              </span>
-            </div>
-          </div>
-        )}
-      </CardBody>
-    </Card>
+              )}
+            </CardBody>
+          </Card>
+        </div>
+      </div>
+    </div>
   );
 }
