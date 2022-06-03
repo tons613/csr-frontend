@@ -9,6 +9,7 @@ import Profile from "pages/Profile";
 import Login from "pages/Login";
 import Register from "pages/Register";
 import PrintSlip from "pages/PrintSlip.js";
+import ChangePassword from "pages/ChangePassword";
 
 var routes = [
   {
@@ -55,10 +56,10 @@ var routes = [
     layout: "/dashboard",
   },
   {
-    path: "/support",
+    path: "/change-password",
     name: "Support",
     icon: "ni ni-support-16",
-    component: Tables,
+    component: ChangePassword,
     layout: "/dashboard",
   },
   {

@@ -51,19 +51,24 @@ function Login(props) {
         )}
         <Card>
           <form onSubmit={handleSubmit}>
-            <CardHeader color="transparent" className="bg-[#F1A83B]" size="sm">
+            {/* <CardHeader color="transparent" className="bg-[#F1A83B]" size="sm">
               <h5 className="text-lg font-medium text-center text-white">
                 Applicant Login
               </h5>
-            </CardHeader>
+            </CardHeader> */}
 
             <CardBody>
-              <div className="mb-12 px-4 bg-bb">
+              <h5 className="text-lg font-medium text-center text-gray-500 mb-5">
+                Applicant Login
+              </h5>
+              <hr className="mb-10" />
+              <div className="mb-5 px-4 bg-bb">
                 <InputIcon
                   type="email"
                   color="lightBlue"
                   placeholder="Email Address"
                   iconName="email"
+                  outline={true}
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -75,12 +80,13 @@ function Login(props) {
                   color="lightBlue"
                   placeholder="Password"
                   required
+                  outline={true}
                   iconName="lock"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
-              <div className="mb-4 px-4">
+              <div className="mb-2 px-4">
                 <Checkbox color="lightBlue" text="Remember Me" id="remember" />
               </div>
             </CardBody>

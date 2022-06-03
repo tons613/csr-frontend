@@ -650,9 +650,6 @@ video {
 .mb-5{
 	margin-bottom: 1.25rem;
 }
-.mb-12{
-	margin-bottom: 3rem;
-}
 .mb-4{
 	margin-bottom: 1rem;
 }
@@ -673,6 +670,9 @@ video {
 }
 .mt-16{
 	margin-top: 4rem;
+}
+.mb-12{
+	margin-bottom: 3rem;
 }
 .mt-40{
 	margin-top: 10rem;
@@ -791,17 +791,17 @@ video {
 .w-2\/12{
 	width: 16.666667%;
 }
-.w-12{
-	width: 3rem;
-}
-.w-16{
-	width: 4rem;
-}
 .w-96{
 	width: 24rem;
 }
 .w-screen{
 	width: 100vw;
+}
+.w-12{
+	width: 3rem;
+}
+.w-16{
+	width: 4rem;
 }
 .w-40{
 	width: 10rem;
@@ -964,6 +964,10 @@ video {
 .bg-\[\#F1A83B\]{
 	--tw-bg-opacity: 1;
 	background-color: rgba(241, 168, 59, var(--tw-bg-opacity));
+}
+.bg-\[\#eee\]{
+	--tw-bg-opacity: 1;
+	background-color: rgba(238, 238, 238, var(--tw-bg-opacity));
 }
 .bg-\[\#fff\]{
 	--tw-bg-opacity: 1;
@@ -2832,8 +2836,8 @@ video {
 	.lg\:w-10\/12{
 		width: 83.333333%;
 	}
-	.lg\:w-8\/12{
-		width: 66.666667%;
+	.lg\:w-9\/12{
+		width: 75%;
 	}
 	.lg\:w-5\/12{
 		width: 41.666667%;
@@ -2841,11 +2845,11 @@ video {
 	.lg\:w-3\/12{
 		width: 25%;
 	}
+	.lg\:w-8\/12{
+		width: 66.666667%;
+	}
 	.lg\:w-7\/12{
 		width: 58.333333%;
-	}
-	.lg\:w-9\/12{
-		width: 75%;
 	}
 	.lg\:grid-cols-2{
 		grid-template-columns: repeat(2, minmax(0, 1fr));

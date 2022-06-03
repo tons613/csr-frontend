@@ -8,10 +8,19 @@ import DropdownItem from '@material-tailwind/react/DropdownItem';
 import ProfilePicture from "assets/img/default-avatar.png";
 import { connect } from "react-redux";
 import { signOut } from "../../redux/actions/authActions";
+import { useEffect, useState } from "react";
+import api from "../../utils/config";
+import { Link } from "react-router-dom";
 
-function AdminNavbar({ showSidebar, setShowSidebar, signOut }) {
+function AdminNavbar({ showSidebar, setShowSidebar, signOut, auth }) {
   const location = useLocation().pathname;
-
+  const { currentUser } = auth;
+  // console.log(currentUser);
+  const [profilePic, setProfilePic] = useState(ProfilePicture);
+  useEffect(() => {
+    if (currentUser.profilePic)
+      setProfilePic(`${api.API_URL}/${currentUser.profilePic}`);
+  });
   return (
     <nav
       className="bg-gray-200  py-6 px-3 md:ml-64"
@@ -65,7 +74,7 @@ function AdminNavbar({ showSidebar, setShowSidebar, signOut }) {
                 color="transparent"
                 buttonText={
                   <div className="w-12">
-                    <Image src={ProfilePicture} rounded />
+                    <Image src={profilePic} rounded />
                   </div>
                 }
                 rounded
@@ -77,7 +86,9 @@ function AdminNavbar({ showSidebar, setShowSidebar, signOut }) {
                 <DropdownItem color="lightBlue" onClick={() => signOut()}>
                   Logout
                 </DropdownItem>
-                <DropdownItem color="lightBlue">Change Password</DropdownItem>
+                <DropdownItem color="lightBlue">
+                  <Link to="/dashboard/change-password">Change Password</Link>
+                </DropdownItem>
               </Dropdown>
             </div>
           </div>
@@ -86,5 +97,8 @@ function AdminNavbar({ showSidebar, setShowSidebar, signOut }) {
     </nav>
   );
 }
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
 
-export default connect(null, { signOut })(AdminNavbar);
+export default connect(mapStateToProps, { signOut })(AdminNavbar);

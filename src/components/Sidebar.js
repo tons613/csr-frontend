@@ -6,6 +6,7 @@ import H6 from "@material-tailwind/react/Heading6";
 import Logo from "assets/img/logo.png";
 import Image from "@material-tailwind/react/Image";
 import { connect } from "react-redux";
+import UserStatus from "utils/userStatus";
 
 function Sidebar(props) {
   const { currentUser } = props.auth;
@@ -54,7 +55,8 @@ function Sidebar(props) {
                 </NavLink>
               </li>
 
-              {currentUser.registrationStatus === 3 && (
+              {currentUser.registrationStatus ===
+                UserStatus.APPLICATION_VALIDATED && (
                 <li className="rounded-lg mb-2 text-gray-700">
                   <NavLink
                     to="/dashboard/examSlip"
@@ -66,7 +68,8 @@ function Sidebar(props) {
                   </NavLink>
                 </li>
               )}
-              {currentUser.registrationStatus === 6 && (
+
+              {currentUser.registrationStatus === UserStatus.AWARD_ACCEPTED && (
                 <li className="rounded-lg mb-2 text-gray-700">
                   <NavLink
                     to="/dashboard/bank-account"
@@ -78,16 +81,16 @@ function Sidebar(props) {
                   </NavLink>
                 </li>
               )}
-              {/* <li className="rounded-lg mb-2 text-gray-700">
+              <li className="rounded-lg mb-2 text-gray-700">
                 <NavLink
-                  to="/auth/login"
+                  to="/dashboard/change-password"
                   className="flex items-center gap-4 text-sm text-white font-light px-4 py-3 rounded-lg"
                   activeClassName="bg-gradient-to-tr from-orange-500 to-deep-orange-700 text-white shadow-md"
                 >
                   <Icon name="fingerprint" size="2xl" />
                   Change Password
                 </NavLink>
-              </li> */}
+              </li>
               {/*<li className="rounded-lg mb-2 text-gray-700">*/}
               {/*    <NavLink*/}
               {/*        to="/login"*/}

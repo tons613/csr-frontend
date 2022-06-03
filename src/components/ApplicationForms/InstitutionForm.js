@@ -12,6 +12,7 @@ import api from "../../utils/config";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { PostInstitution } from "../../redux/actions/ApplicationActions";
+import UserStatus from "utils/userStatus";
 
 function InstitutionForm(props) {
   const [userData, setUserData] = useState({});
@@ -34,7 +35,9 @@ function InstitutionForm(props) {
         },
       })
       .then((result) => {
-        if (result.data.formData.registrationStatus !== 2) {
+        if (
+          result.data.formData.registrationStatus !== UserStatus.IN_PROGRESS
+        ) {
           props.history.push("/dashboard");
         }
         setUserData(result.data.formData);

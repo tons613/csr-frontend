@@ -14,6 +14,7 @@ import Swal from "sweetalert2";
 import { withRouter } from "react-router-dom";
 import SlipToPrint from "../components/SlipToPrint";
 import ReactToPrint from "react-to-print";
+import UserStatus from "utils/userStatus";
 
 function PrintSlip(props) {
   const [userData, setUserData] = useState({});
@@ -33,7 +34,10 @@ function PrintSlip(props) {
         },
       })
       .then((result) => {
-        if (result.data.userdata.registrationStatus !== 3) {
+        if (
+          result.data.userdata.registrationStatus !==
+          UserStatus.APPLICATION_VALIDATED
+        ) {
           props.history.push("/dashboard/Application");
         }
         setUserData(result.data.userdata);

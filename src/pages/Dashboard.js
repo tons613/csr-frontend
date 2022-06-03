@@ -2,6 +2,7 @@ import { Card, CardBody, CardHeader, Progress } from "@material-tailwind/react";
 import { format } from "date-fns";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import UserStatus from "../utils/userStatus";
 
 function Dashboard(props) {
   const { currentUser } = props.auth;
@@ -68,27 +69,32 @@ function Dashboard(props) {
                                   <i className="fas fa-circle fa-sm text-teal-500 mr-2"></i>{" "}
                                   Submitted, awaiting verification
                                 </>
-                              ) : currentUser.registrationStatus === 2 ? (
+                              ) : currentUser.registrationStatus ===
+                                UserStatus.IN_PROGRESS ? (
                                 <>
                                   <i className="fas fa-circle fa-sm text-orange-500 mr-2"></i>{" "}
                                   Awaiting Completetion and Submission
                                 </>
-                              ) : currentUser.registrationStatus === 3 ? (
+                              ) : currentUser.registrationStatus ===
+                                UserStatus.APPLICATION_VALIDATED ? (
                                 <>
                                   <i className="fas fa-circle fa-sm text-green-500 mr-2"></i>{" "}
                                   Validated
                                 </>
-                              ) : currentUser.registrationStatus === 4 ? (
+                              ) : currentUser.registrationStatus ===
+                                UserStatus.APPLICATION_REJECTED ? (
                                 <>
                                   <i className="fas fa-circle fa-sm text-red-500 mr-2"></i>{" "}
                                   Rejected
                                 </>
-                              ) : currentUser.registrationStatus === 5 ? (
+                              ) : currentUser.registrationStatus ===
+                                UserStatus.AWARDED_PENDING_ACCEPTANCE ? (
                                 <>
                                   <i className="fas fa-circle fa-sm text-green-500 mr-2"></i>{" "}
                                   Awarded, Awaiting Acceptance
                                 </>
-                              ) : currentUser.registrationStatus === 6 ? (
+                              ) : currentUser.registrationStatus ===
+                                UserStatus.AWARD_ACCEPTED ? (
                                 <>
                                   <i className="fas fa-circle fa-sm text-green-500 mr-2"></i>{" "}
                                   SCHOLARSHIP AWARDED

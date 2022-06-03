@@ -8,6 +8,7 @@ import { Provider } from "react-redux";
 import setAuthorizationToken from "utils/TokenInterceptor";
 import "@fortawesome/fontawesome-free/css/all.css";
 
+
 setAuthorizationToken();
 
 ReactDOM.render(

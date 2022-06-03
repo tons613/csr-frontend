@@ -17,6 +17,7 @@ import { withRouter } from "react-router-dom";
 import { format } from "date-fns";
 import store from "redux/store";
 import { setCurrentUser } from "redux/actions/authActions";
+import UserStatus from "utils/userStatus";
 
 function FormSummary(props) {
   const [userData, setUserData] = useState({});
@@ -82,7 +83,9 @@ function FormSummary(props) {
         },
       })
       .then((result) => {
-        if (result.data.userdata.registrationStatus !== 2) {
+        if (
+          result.data.userdata.registrationStatus !== UserStatus.IN_PROGRESS
+        ) {
           props.history.push("/dashboard");
         }
         setUserData(result.data.userdata);
@@ -396,7 +399,7 @@ function FormSummary(props) {
                 {Object.entries(userfiles)
                   .filter((fil) => fil[1].documentName !== "Passport")
                   .map((fileInfos) => (
-                    <Fragment>
+                    <Fragment key={fileInfos[1].documentName}>
                       <div className="w-full  mb-5 font-dark">
                         <span>{fileInfos[1].documentName}</span>
                         <div className="bg-[#8CC1C1] p-1 px-2 rounded w-6/12">

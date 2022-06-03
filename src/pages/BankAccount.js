@@ -13,6 +13,7 @@ import { connect } from "react-redux";
 import { PostTestCenter } from "../redux/actions/ApplicationActions";
 import { withRouter } from "react-router-dom";
 import Swal from "sweetalert2";
+import UserStatus from "../utils/userStatus";
 
 export default function BankAccount(props) {
   const [userData, setUserData] = useState({});
@@ -38,7 +39,7 @@ export default function BankAccount(props) {
         },
       })
       .then((result) => {
-        if (result.data.registrationStatus !== 6) {
+        if (result.data.registrationStatus !== UserStatus.AWARD_ACCEPTED) {
           props.history.push("/dashboard");
         }
         var acct = result.data.acct;
@@ -195,7 +196,6 @@ export default function BankAccount(props) {
                     </div>
                     <div className="w-full lg:w-3/12 pr-4 mb-10 font-dark">
                       <Input
-                        max="2010-12-31"
                         placeholder="Account number"
                         outline={true}
                         type="number"

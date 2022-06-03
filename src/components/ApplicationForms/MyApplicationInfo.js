@@ -14,6 +14,7 @@ import { SubmitForm } from "../../redux/actions/ApplicationActions";
 import Swal from "sweetalert2";
 import { withRouter } from "react-router-dom";
 import { format } from "date-fns";
+import UserStatus from "utils/userStatus";
 
 function MyApplicationInfo(props) {
   const [userData, setUserData] = useState({});
@@ -22,48 +23,6 @@ function MyApplicationInfo(props) {
   const [loading, setLoading] = useState(true);
   const [errMsg, setErrMsg] = useState([]);
 
-  const handleSubmit = () => {
-    setLoading(true);
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to edit this after submission!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, Submit it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        props
-          .SubmitForm()
-          .then((res) => {
-            setLoading(false);
-            Swal.fire(
-              "Submitted!",
-              "Your application has been submitted. Application Number is " +
-                res.data.appnum,
-              "success"
-            );
-          })
-          .catch((error) => {
-            setLoading(false);
-            console.log(error.response);
-            var errmsg = [];
-            if (error.response) {
-              for (const [key, value] of Object.entries(error.response.data)) {
-                errmsg.push(value);
-                console.log(value);
-              }
-            } else {
-              errmsg.push(
-                "An Error ocurred. Request could not be processed. Please try again later"
-              );
-            }
-            setErrMsg(errmsg);
-          });
-      }
-    });
-  };
   useEffect(() => {
     loadData();
   }, []);
@@ -76,7 +35,7 @@ function MyApplicationInfo(props) {
         },
       })
       .then((result) => {
-        if (result.data.registrationStatus === 2) {
+        if (result.data.registrationStatus === UserStatus.IN_PROGRESS) {
           props.history.push("/dashboard/Application");
         }
         setUserData(result.data.userdata);
@@ -108,7 +67,6 @@ function MyApplicationInfo(props) {
         return "SCHOLARSHIP AWARDED";
     }
   };
-  console.log(userData);
   return (
     <>
       {Object.entries(userData).length > 0 ? (
@@ -385,6 +343,7 @@ function MyApplicationInfo(props) {
                     text="Yes"
                     id="PreviouslyBenefited"
                     name="PreviouslyBenefited"
+                    disabled
                     defaultChecked={userData?.previouslyBenefited === "Y"}
                   />
                   <Radio
@@ -392,6 +351,7 @@ function MyApplicationInfo(props) {
                     text="No"
                     id="PreviouslyBenefited1"
                     name="PreviouslyBenefited"
+                    disabled
                     defaultChecked={userData?.previouslyBenefited === "N"}
                   />
                 </div>
@@ -404,7 +364,7 @@ function MyApplicationInfo(props) {
                 {Object.entries(userfiles)
                   .filter((fil) => fil[1].documentName !== "Passport")
                   .map((fileInfos) => (
-                    <Fragment>
+                    <Fragment key={fileInfos[1].documentName}>
                       <div className="w-full  mb-5 font-dark">
                         <span>{fileInfos[1].documentName}</span>
                         <div className="bg-[#8CC1C1] p-1 px-2 rounded lg:w-6/12">
@@ -439,7 +399,9 @@ function MyApplicationInfo(props) {
             </CardBody>
           </Card>
         </>
-      ) : null}
+      ) : (
+        "Loading Record...."
+      )}
     </>
   );
 }

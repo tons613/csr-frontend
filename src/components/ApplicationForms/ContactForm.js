@@ -13,6 +13,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { PostContactDetail } from "../../redux/actions/ApplicationActions";
 import { format } from "date-fns";
+import UserStatus from "utils/userStatus";
 
 function ContactForm(props) {
   useEffect(() => {
@@ -38,7 +39,9 @@ function ContactForm(props) {
         },
       })
       .then((result) => {
-        if (result.data.contactData.registrationStatus !== 2) {
+        if (
+          result.data.contactData.registrationStatus !== UserStatus.IN_PROGRESS
+        ) {
           props.history.push("/dashboard");
         }
         setUserData(result.data.contactData);
