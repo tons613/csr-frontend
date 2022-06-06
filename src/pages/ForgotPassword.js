@@ -1,29 +1,34 @@
-import Card from '@material-tailwind/react/Card';
-import CardHeader from '@material-tailwind/react/CardHeader';
-import CardBody from '@material-tailwind/react/CardBody';
-import CardFooter from '@material-tailwind/react/CardFooter';
+import Card from "@material-tailwind/react/Card";
+import CardHeader from "@material-tailwind/react/CardHeader";
+import CardBody from "@material-tailwind/react/CardBody";
+import CardFooter from "@material-tailwind/react/CardFooter";
 // import H5 from '@material-tailwind/react/Heading5';
-import InputIcon from '@material-tailwind/react/InputIcon';
-import Checkbox from '@material-tailwind/react/Checkbox';
-import Button from '@material-tailwind/react/Button';
+import InputIcon from "@material-tailwind/react/InputIcon";
+import Checkbox from "@material-tailwind/react/Checkbox";
+import Button from "@material-tailwind/react/Button";
 import AuthNavbar from "components/Navbars/AuthNavbar";
 import SimpleFooter from "components/SimpleFooter";
 import Page from "components/login/Page";
 import Container from "components/login/Container";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { signIn } from "../redux/actions/authActions";
+import { ForgotPassword } from "../redux/actions/authActions";
 import isEmpty from "lodash/isEmpty";
 import { Link } from "react-router-dom";
 
-function Login(props) {
+function ForgotPasswordd(props) {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const { authError, auth } = props;
+  const [succMsg, setSuccMsg] = useState(null);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    var data = { email: email, password: password };
-    props.login(data);
+    props.ForgotPassword({ email }).then(() => {
+      setSuccMsg(
+        "Password reset link has been sent to your email. Please check your email to continue."
+      );
+      setEmail("");
+    });
   };
   const checkAuth = () => {
     const { isAuthenticated, currentUser, loading } = auth;
@@ -50,6 +55,15 @@ function Login(props) {
             {/* {authError && authError.map((err) => <li>{err}</li>)} */}
           </div>
         )}
+        {succMsg && (
+          <div
+            className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-8 mx-5"
+            role="alert"
+          >
+            {succMsg}
+            {/* {authError && authError.map((err) => <li>{err}</li>)} */}
+          </div>
+        )}
         <Card>
           <form onSubmit={handleSubmit}>
             {/* <CardHeader color="transparent" className="bg-[#F1A83B]" size="sm">
@@ -60,7 +74,7 @@ function Login(props) {
 
             <CardBody>
               <h5 className="text-lg font-light text-center text-gray-700 mb-5">
-                Applicant Login
+                Reset password
               </h5>
               <hr className="mb-10" />
               <div className="mb-5 px-4 bg-bb">
@@ -75,24 +89,9 @@ function Login(props) {
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
-              <div className="mb-8 px-4">
-                <InputIcon
-                  type="password"
-                  color="lightBlue"
-                  placeholder="Password"
-                  required
-                  outline={true}
-                  iconName="lock"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-              {/* <div className="mb-2 px-4">
-                <Checkbox color="lightBlue" text="Remember Me" id="remember" />
-              </div> */}
-              <div className="flex justify-center">
+              <div className="flex justify-center bg-bb">
                 <Button
-                  color="orange"
+                  color="lightBlue"
                   // buttonType="link"
                   // size="lg"
                   ripple="dark"
@@ -103,14 +102,14 @@ function Login(props) {
                       Loading... <i className="fa fa-spinner fa-2x fa-spin"></i>
                     </>
                   ) : (
-                    "Sign In"
+                    "Send Password Reset Link"
                   )}
                 </Button>
               </div>
             </CardBody>
             <CardFooter>
-              <div className="text-xs text-teal-500 text-right">
-                <Link to="/auth/forgot-password">Forgot Password ?</Link>
+              <div className="text-sm text-orange-500 text-center">
+                <Link to="/auth/login">Back to Login</Link>
               </div>
             </CardFooter>
           </form>
@@ -120,11 +119,11 @@ function Login(props) {
     </Page>
   );
 }
-const mapDispatchToProps = (dispatch) => {
-  return { login: (credentials) => dispatch(signIn(credentials)) };
-};
+// const mapDispatchToProps = (dispatch) => {
+//   return { login: (credentials) => dispatch(ForgotPassword(credentials)) };
+// };
 const mapStateToProps = (state) => ({
   auth: state.auth,
   authError: state.auth.authError,
 });
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, { ForgotPassword })(ForgotPasswordd);

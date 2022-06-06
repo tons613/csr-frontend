@@ -123,7 +123,60 @@ export const ChangePassword = (userData) => {
           },
         })
         .then((result) => {
-          console.log("dedede", result);
+          resolve(result.data);
+        })
+        .catch((error) => {
+          // alert(JSON.stringify(error));
+          var err;
+          if (error.response) {
+            err = error.response.data;
+            // alert(JSON.stringify(err));
+            console.log(err);
+          } else {
+            err =
+              "An error occured. Please check your network connection and try again";
+          }
+          reject(err);
+        });
+    });
+
+    return promise;
+  };
+};
+
+export const ForgotPassword = (email) => {
+  return (dispatch, getState) => {
+    const promise = new Promise(function (resolve, reject) {
+      axios
+        .post(api.API_URL + "/api/auth/forgot-password", email)
+        .then((result) => {
+          resolve(result.data);
+        })
+        .catch((error) => {
+          // alert(JSON.stringify(error));
+          var err;
+          if (error.response) {
+            err = error.response.data;
+            // alert(JSON.stringify(err));
+            console.log(err);
+          } else {
+            err =
+              "An error occured. Please check your network connection and try again";
+          }
+          reject(err);
+        });
+    });
+
+    return promise;
+  };
+};
+
+export const ResetPassword = (userData) => {
+  return (dispatch, getState) => {
+    const promise = new Promise(function (resolve, reject) {
+      axios
+        .post(api.API_URL + "/api/auth/reset_password", userData)
+        .then((result) => {
           resolve(result.data);
         })
         .catch((error) => {

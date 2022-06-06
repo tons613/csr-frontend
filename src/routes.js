@@ -10,6 +10,8 @@ import Login from "pages/Login";
 import Register from "pages/Register";
 import PrintSlip from "pages/PrintSlip.js";
 import ChangePassword from "pages/ChangePassword";
+import ForgotPassword from "pages/ForgotPassword";
+import ResetPassword from "pages/ResetPassword";
 
 var routes = [
   {
@@ -67,6 +69,20 @@ var routes = [
     name: "Login",
     icon: "ni ni-key-25 text-info",
     component: Login,
+    layout: "/auth",
+  },
+  {
+    path: "/forgot-password",
+    name: "Login",
+    icon: "ni ni-key-25 text-info",
+    component: ForgotPassword,
+    layout: "/auth",
+  },
+  {
+    path: "/reset-password",
+    name: "Login",
+    icon: "ni ni-key-25 text-info",
+    component: ResetPassword,
     layout: "/auth",
   },
   {
