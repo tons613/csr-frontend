@@ -37,7 +37,7 @@ function AdminNavbar({ showSidebar, setShowSidebar, signOut, auth }) {
             ripple="light"
             onClick={() => setShowSidebar("left-0")}
           >
-            <Icon name="menu" size="2xl" color="white" />
+            <Icon name="menu" size="2xl" color="orange" />
           </Button>
           <div
             className={`absolute top-2 md:hidden ${
@@ -53,7 +53,7 @@ function AdminNavbar({ showSidebar, setShowSidebar, signOut, auth }) {
               ripple="light"
               onClick={() => setShowSidebar("-left-64")}
             >
-              <Icon name="close" size="2xl" color="white" />
+              <Icon name="close" size="2xl" color="orange" />
             </Button>
           </div>
         </div>

@@ -67,7 +67,7 @@ function Dashboard(props) {
                               {currentUser.registrationStatus === 1 ? (
                                 <>
                                   <i className="fas fa-circle fa-sm text-teal-500 mr-2"></i>{" "}
-                                  Submitted, awaiting verification
+                                  Submitted
                                 </>
                               ) : currentUser.registrationStatus ===
                                 UserStatus.IN_PROGRESS ? (
@@ -79,7 +79,7 @@ function Dashboard(props) {
                                 UserStatus.APPLICATION_VALIDATED ? (
                                 <>
                                   <i className="fas fa-circle fa-sm text-green-500 mr-2"></i>{" "}
-                                  Validated
+                                  Submitted
                                 </>
                               ) : currentUser.registrationStatus ===
                                 UserStatus.APPLICATION_REJECTED ? (
