@@ -12,6 +12,7 @@ import PrintSlip from "pages/PrintSlip.js";
 import ChangePassword from "pages/ChangePassword";
 import ForgotPassword from "pages/ForgotPassword";
 import ResetPassword from "pages/ResetPassword";
+import ApplyWithShortlink from "pages/ApplyWithShortlink";
 
 var routes = [
   {
@@ -67,37 +68,20 @@ var routes = [
   {
     path: "/login",
     name: "Login",
-    icon: "ni ni-key-25 text-info",
     component: Login,
     layout: "/auth",
   },
   {
     path: "/forgot-password",
     name: "Login",
-    icon: "ni ni-key-25 text-info",
     component: ForgotPassword,
     layout: "/auth",
   },
   {
     path: "/reset-password",
     name: "Login",
-    icon: "ni ni-key-25 text-info",
     component: ResetPassword,
     layout: "/auth",
   },
-  {
-    path: "/apply",
-    name: "Register",
-    icon: "ni ni-circle-08 text-pink",
-    component: Register,
-    layout: "/home",
-  },
-  // {
-  //   path: "/verify",
-  //   name: "Email Verification",
-  //   icon: "ni ni-circle-08 text-pink",
-  //   component: EmailVerification,
-  //   layout: "/auth",
-  // },
 ];
 export default routes;

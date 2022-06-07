@@ -97,9 +97,11 @@ function Register(props) {
   return (
     <Page>
       <AuthNavbar />
-      <Container style={{ width: 600 }}>
+      <Container style={{ width: 450 }}>
         {loading ? (
-          "Loading..."
+          <div className="text-center ">
+            <i className="fa fa-spinner fa-4x fa-spin text-gray-700"></i>
+          </div>
         ) : requestError ? (
           <div
             className="bg-orange-200 text-center border border-red-400 text-orange-800 px-4 py-10 rounded relative mb-8 mx-5"
@@ -156,7 +158,7 @@ function Register(props) {
                       type="tel"
                       color="lightBlue"
                       placeholder="Phone number"
-                      iconName="email"
+                      iconName="phone"
                       defaultValue={userData.phoneNumber}
                       onChange={(e) => setPhone(e.target.value)}
                     />
@@ -198,7 +200,7 @@ function Register(props) {
                     <Button
                       color="teal"
                       // buttonType="link"
-                      size="lg"
+                      // size="lg"
                       ripple="dark"
                     >
                       {authLoadin ? (

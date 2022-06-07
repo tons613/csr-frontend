@@ -3,6 +3,7 @@ import DashboardLayout from "layouts/Dashboard.js";
 import AuthLayout from "layouts/Auth.js";
 import IndexLayout from "layouts/Index";
 import Register from "pages/Register";
+import ApplyWithShortlink from "pages/ApplyWithShortlink";
 // Tailwind CSS Style Sheet
 import "assets/styles/tailwind.css";
 
@@ -11,6 +12,7 @@ function App() {
     <>
       <Switch>
         <Route path="/apply" exact component={Register} />
+        <Route path="/t/:token" exact component={ApplyWithShortlink} />
         <Route path="/auth" render={(props) => <AuthLayout {...props} />} />
         <Route
           path="/dashboard"
