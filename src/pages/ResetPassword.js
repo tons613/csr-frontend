@@ -32,7 +32,11 @@ function ResetPasswordd(props) {
   useEffect(() => {
     if (token !== null) {
       axios
-        .get(`${api.API_URL}/api/auth/get_reset_password?token=${token}`)
+        .get(
+          `${
+            api.API_URL
+          }/api/auth/get_reset_password?token=${encodeURIComponent(token)}`
+        )
         .then((data) => {
           setCode(data.data.code);
           setEmail(data.data.email);
