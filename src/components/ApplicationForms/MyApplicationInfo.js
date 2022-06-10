@@ -371,6 +371,7 @@ function MyApplicationInfo(props) {
                           <a
                             href={`${api.API_URL}/${fileInfos[1].systemFilePath}`}
                             target="_blank"
+                            rel="noreferrer"
                             className="text-white"
                           >
                             View uploaded file

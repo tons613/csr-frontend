@@ -155,11 +155,7 @@ function ContactForm(props) {
 
   // alert();
 
-  userData?.dob &&
-    console.log(
-      "deded",
-      format(new Date(userData?.dob.toString()), "yyyy-MM-dd")
-    );
+
   return (
     <Card>
       <CardHeader color="orange" contentPosition="none" size="sm">

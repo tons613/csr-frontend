@@ -105,10 +105,13 @@ function Dashboard(props) {
                               {/* <Progress color="red" value="60" /> */}
                             </th>
                             <th className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-left">
-                              {format(
-                                new Date(currentUser?.dateUpdated?.toString()),
-                                "dd/MM/yyyy hh:mm a"
-                              )}
+                              {currentUser?.dateUpdated &&
+                                format(
+                                  new Date(
+                                    currentUser?.dateUpdated?.toString()
+                                  ),
+                                  "dd/MM/yyyy hh:mm a"
+                                )}
                             </th>
                             <th className="border-b border-gray-200 align-middle font-light text-sm whitespace-nowrap px-2 py-4 text-left">
                               <div className="flex text-teal-500">

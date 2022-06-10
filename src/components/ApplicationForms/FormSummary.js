@@ -407,6 +407,7 @@ function FormSummary(props) {
                             href={`${api.API_URL}/${fileInfos[1].systemFilePath}`}
                             target="_blank"
                             className="text-white"
+                            rel="noreferrer"
                           >
                             View uploaded file
                           </a>

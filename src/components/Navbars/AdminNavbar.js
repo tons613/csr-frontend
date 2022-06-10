@@ -23,7 +23,7 @@ function AdminNavbar({ showSidebar, setShowSidebar, signOut, auth }) {
   });
   return (
     <nav
-      className="bg-gray-200  py-6 px-3 md:ml-64"
+      className="bg-gray-200 py-7 px-3 md:ml-64 h-200"
       style={{ borderBottom: "thin orange solid" }}
     >
       <div className="container max-w-full mx-auto flex items-center justify-between md:pr-8 md:pl-10">
@@ -59,11 +59,11 @@ function AdminNavbar({ showSidebar, setShowSidebar, signOut, auth }) {
         </div>
 
         <div className="flex justify-between items-center w-full">
-          <h4 className="uppercase text-orange text-sm tracking-wider mt-1">
+          <h4 className="uppercase text-orange text-sm1 tracking-wider mt-1">
             {/*{location === '/'*/}
             {/*    ? 'DASHBOARD'*/}
             {/*    : location.toUpperCase().replace('/', '')}*/}
-            Total National Merit Scholarship Award.
+            Total National Merit Scholarship Scheme
           </h4>
 
           <div className="flex">

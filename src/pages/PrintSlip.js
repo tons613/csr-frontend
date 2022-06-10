@@ -1,16 +1,16 @@
 import Card from "@material-tailwind/react/Card";
-import CardHeader from "@material-tailwind/react/CardHeader";
-import CardBody from "@material-tailwind/react/CardBody";
+// import CardHeader from "@material-tailwind/react/CardHeader";
+// import CardBody from "@material-tailwind/react/CardBody";
 import Button from "@material-tailwind/react/Button";
-import Input from "@material-tailwind/react/Input";
-import Textarea from "@material-tailwind/react/Textarea";
-import { CardFooter, Image } from "@material-tailwind/react";
+// import Input from "@material-tailwind/react/Input";
+// import Textarea from "@material-tailwind/react/Textarea";
+// import { CardFooter, Image } from "@material-tailwind/react";
 import { Fragment, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import api from "../utils/config";
-import { Radio } from "@material-ui/core";
-import { connect } from "react-redux";
-import Swal from "sweetalert2";
+// import { Radio } from "@material-ui/core";
+// import { connect } from "react-redux";
+// import Swal from "sweetalert2";
 import { withRouter } from "react-router-dom";
 import SlipToPrint from "../components/SlipToPrint";
 import ReactToPrint from "react-to-print";
@@ -20,7 +20,6 @@ function PrintSlip(props) {
   const [userData, setUserData] = useState({});
   const [passport, setPassprt] = useState("");
   const [loading, setLoading] = useState(true);
-  const [errMsg, setErrMsg] = useState([]);
 
   useEffect(() => {
     loadData();

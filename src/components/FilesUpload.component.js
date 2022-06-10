@@ -206,6 +206,7 @@ const UploadFiles = (props) => {
                 <a
                   href={`${api.API_URL}/${fileInfos.filepath}`}
                   target="_blank"
+                  rel="noreferrer"
                   className="text-white"
                 >
                   View uploaded file

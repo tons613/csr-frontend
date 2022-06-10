@@ -3,7 +3,7 @@ import CardHeader from "@material-tailwind/react/CardHeader";
 import CardBody from "@material-tailwind/react/CardBody";
 import Button from "@material-tailwind/react/Button";
 import { CardFooter, InputIcon } from "@material-tailwind/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { connect } from "react-redux";
 import Swal from "sweetalert2";
 import { ChangePassword } from "../redux/actions/authActions";
